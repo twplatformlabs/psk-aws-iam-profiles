@@ -1,0 +1,15 @@
+directory:
+  - .
+branch: master
+download-external-modules: false
+evaluate-variables: true
+external-modules-download-path: .external_modules
+framework:
+- all
+mask: []
+secrets-scan-file-type: []
+summary-position: top
+skip-check:
+  - CKV_AWS_273
+  - CKV2_AWS_21
+  - CKV2_AWS_14

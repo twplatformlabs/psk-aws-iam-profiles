@@ -1,0 +1,4 @@
+.terraform*
+.external_modules
+source_aws_local.env
+*.auto.tfvars.json
