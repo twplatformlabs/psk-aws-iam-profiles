@@ -1,5 +1,5 @@
 variable "aws_region" { type = string }
-variable "aws_account_id" { type = string }
+#variable "aws_account_id" { type = string }
 
 # create service accounts, groups, and group assignments only in state account
 variable "is_state_account" {
@@ -12,10 +12,10 @@ variable "all_production_account_roles" { type = list(any) }
 
 # twdps.io@gmail.com service account gpg public key for encrypting aws credentials
 # not a secret, but even public keys can set off secret scanners
-variable "twdpsio_gpg_public_key_base64" {
-  type      = string
-  sensitive = true
-}
+# variable "twdpsio_gpg_public_key_base64" {
+#   type      = string
+#   sensitive = true
+# }
 
 
 # # ========= original
