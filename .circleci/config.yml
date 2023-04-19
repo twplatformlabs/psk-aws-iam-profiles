@@ -45,11 +45,11 @@ commands:
         description: account to be configured
         type: string
     steps:
-      # - op/env:
-      #     env-file: op.<< parameters.account >>.env
-      # - run:
-      #     name: set ~/.terraformrc
-      #     command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
+      - op/env:
+          env-file: op.<< parameters.account >>.env
+      - run:
+          name: set ~/.terraformrc
+          command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
       - run:
           name: set << parameters.account >> environment variables
           command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
