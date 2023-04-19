@@ -39,5 +39,4 @@ terraform
 
 
 
-
 -replace="module.PSKNonprodServiceAccount.aws_iam_access_key.this[0]" -replace="module.PSKProdServiceAccount.aws_iam_access_key.this[0]"
