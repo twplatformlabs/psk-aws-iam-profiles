@@ -2,25 +2,25 @@
 version: 2.1
 
 orbs:
-  terraform: twdps/terraform@0.1.0
+  terraform: twdps/terraform@dev:latest
   op: twdps/onepassword@1.0.0
   do: twdps/pipeline-events@0.1.0
 
 # ==== global pipeline parameters
 
 parameters:
-  terraform-version:
-    description: terraform version for all jobs
-    type: string
-    default: "1.3.8"
+  #  terraform-version:
+  #  description: terraform version for all jobs
+  #  type: string
+  #  default: "1.4.2"
   context:
     description: circleci context for all jobs
     type: string
     default: twdps-core-labs-team
-  executor-image:
-    description: image to use for terraform runs
-    type: string
-    default: twdps/circleci-infra-aws:alpine-stable
+  # executor-image:
+  #  description: image to use for terraform runs
+  #  type: string
+  #  default: twdps/circleci-infra-aws:alpine-stable
 
 # ==== triggers
 
@@ -99,16 +99,13 @@ jobs:
 workflows:
   version: 2
 
-  deploy profiles and roles to nonprod:
+  deploy psk profiles and roles to nonprod:
     jobs:
       - terraform/plan:
           name: nonprod change plan
           context: << pipeline.parameters.context >>
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           workspace: nonprod
-          executor-image: << pipeline.parameters.executor-image >>
-          terraform-version: << pipeline.parameters.terraform-version >>
-          extra-terraform-args: '-replace="module.PSKNonprodServiceAccount.aws_iam_access_key.this[0]" -replace="module.PSKProdServiceAccount.aws_iam_access_key.this[0]"'
           before-terraform:
             - set-environment:
                 account: nonprod
