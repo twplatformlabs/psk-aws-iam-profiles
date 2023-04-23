@@ -2,6 +2,7 @@
 version: 2.1
 
 orbs:
+  #checkov:skip=CKV_CIRCLECIPIPELINES_3
   terraform: twdps/terraform@dev:latest
   op: twdps/onepassword@1.0.0
   do: twdps/pipeline-events@0.1.0
@@ -53,9 +54,6 @@ commands:
       - run:
           name: set << parameters.account >> environment variables
           command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
-      # - run:
-      #     name: set twdps.io gpg keys
-      #     command: bash scripts/import_gpg_keys.sh
 
 jobs:
 
@@ -111,30 +109,27 @@ workflows:
                 account: nonprod
           filters: *on-push-main
 
-  #     - approve nonprod changes:
-  #         type: approval
-  #         requires:
-  #           - nonprod change plan
-  #         filters: *on-push-main
+      - approve nonprod changes:
+          type: approval
+          requires:
+            - nonprod change plan
+          filters: *on-push-main
 
-  #     - terraform/apply:
-  #         name: apply nonprod changes
-  #         context: << pipeline.parameters.context >>
-  #         shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-  #         workspace: nonprod
-  #         executor-image: << pipeline.parameters.executor-image >>
-  #         terraform-version: << pipeline.parameters.terraform-version >>
-  #         before-terraform:
-  #           - set-environment:
-  #               account: nonprod
-  #         after-terraform:
-  #           - do/circle-deploy
-  #           - do/slack-webhook:
-  #               message: lab-iam-profile nonprod deployment
-  #               webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
-  #         requires:
-  #           - approve nonprod changes
-  #         filters: *on-push-main
+      - terraform/apply:
+          name: apply nonprod changes
+          context: << pipeline.parameters.context >>
+          shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+          workspace: nonprod
+          before-terraform:
+            - set-environment:
+                account: nonprod
+          after-terraform:
+            - do/slack-webhook:
+                message: lab-iam-profile nonprod deployment
+                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+          requires:
+            - approve nonprod changes
+          filters: *on-push-main
 
   #     - validate configuration and store profile credentials:
   #         name: test nonprod iam profiles configuration

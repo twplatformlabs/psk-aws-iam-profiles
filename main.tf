@@ -4,12 +4,12 @@
 # which accounts the identity may assume a role.
 
 # Non-production service account identity ===============================================
-# For assuming roles in non-customer facing environments. A separate pipeline step
+# For assuming roles in non-production and non-customer facing environments. A separate pipeline step
 # will create and store the service account credentials in the secrets store
 
 module "PSKNonprodServiceAccount" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-user"
-  version = "~> 5.16.0"
+  version = "~> 5.17.0"
 
   create_user                   = var.is_state_account
   name                          = "PSKNonprodServiceAccount"
@@ -20,10 +20,9 @@ module "PSKNonprodServiceAccount" {
   password_reset_required       = false
 }
 
-# Non-production Group membership defines the nonprod accounts where any role may be assumed
 module "PSKNonprodServiceAccountGroup" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
-  version = "~> 5.16.0"
+  version = "~> 5.17.0"
 
   count           = var.is_state_account ? 1 : 0
   name            = "PSKNonprodServiceAccountGroup"
@@ -42,7 +41,7 @@ module "PSKNonprodServiceAccountGroup" {
 
 module "PSKProdServiceAccount" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-user"
-  version = "~> 5.16.0"
+  version = "~> 5.17.0"
 
   create_user                   = var.is_state_account
   name                          = "PSKProdServiceAccount"
@@ -53,10 +52,9 @@ module "PSKProdServiceAccount" {
   password_reset_required       = false
 }
 
-# Production Group membership defines the production accounts where any role may be assumed
 module "PSKProdServiceAccountGroup" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
-  version = "~> 5.16.0"
+  version = "~> 5.17.0"
 
   count           = var.is_state_account ? 1 : 0
   name            = "PSKProdServiceAccountGroup"

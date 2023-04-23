@@ -22,14 +22,12 @@ terraform {
   }
 }
 
-
-
 provider "aws" {
   region = var.aws_region
 
-  # this section commented out during the initial bootstrap run
+  # this section commented out during the initial bootstrap run.
   # once the assumeable roles are created, uncomment and change
-  # secrethub.*.env to contain the appropriate service account identity
+  # op.*.env to contain the appropriate service account identity
   # assume_role {
   #   role_arn     = "arn:aws:iam::${var.aws_account_id}:role/${var.aws_account_role}"
   #   session_name = "lab-iam-profiles"
@@ -37,6 +35,7 @@ provider "aws" {
 
   default_tags {
     tags = {
+      product  = "empc engineering platform"
       pipeline = "psk-aws-iam-profiles"
     }
   }
