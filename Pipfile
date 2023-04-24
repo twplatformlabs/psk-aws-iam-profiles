@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 
 [dev-packages]
-checkov = "2.3.194"
+checkov = "*"
 pre-commit = "3.2.2"
 
 [requires]
