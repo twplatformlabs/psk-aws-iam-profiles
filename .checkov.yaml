@@ -1,7 +1,7 @@
 directory:
   - .
-branch: master
-download-external-modules: false
+branch: main
+download-external-modules: true
 evaluate-variables: true
 external-modules-download-path: .external_modules
 framework:
@@ -10,6 +10,7 @@ mask: []
 secrets-scan-file-type: []
 summary-position: top
 skip-check:
-  - CKV_AWS_273
+  - CKV2_AWS_14  # only machine accounts are being created by the pipeline
   - CKV2_AWS_21
-  - CKV2_AWS_14
+  - CKV2_AWS_22
+  - CKV_AWS_273

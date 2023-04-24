@@ -29,3 +29,4 @@ repos:
       - id: terraform_validate
       - id: terraform_tflint
       - id: terraform_checkov
+      - id: terraform_tfsec
