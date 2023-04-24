@@ -12,10 +12,6 @@ Repo Documentation
 
 diagram of the service account configuration and relationship to roles
 
-main.tf - this is where we create the nonprod and prod service account, the groups which the svc accounts will be added, and the
-role assumption permissions. in general, a production service account can assume roles in any account, whereas the nonproduction
-service account is limited to accounts without customer production workloads.
-
 ### maintainers notes
 
 1. .gitignore comments
