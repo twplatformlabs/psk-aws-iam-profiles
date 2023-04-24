@@ -26,6 +26,7 @@ module "PSKNonprodServiceAccountGroup" {
 
   count           = var.is_state_account ? 1 : 0
   name            = "PSKNonprodServiceAccountGroup"
+  path            = "/PSKGroups/"
   assumable_roles = var.all_nonprod_account_roles
 
   # include the nonprod service account in the nonprod group
@@ -58,6 +59,7 @@ module "PSKProdServiceAccountGroup" {
 
   count           = var.is_state_account ? 1 : 0
   name            = "PSKProdServiceAccountGroup"
+  path            = "/PSKGroups/"
   assumable_roles = concat(var.all_nonprod_account_roles, var.all_production_account_roles)
 
   # include the production service account in the production group
