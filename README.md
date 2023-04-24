@@ -16,7 +16,6 @@ main.tf - this is where we create the nonprod and prod service account, the grou
 role assumption permissions. in general, a production service account can assume roles in any account, whereas the nonproduction
 service account is limited to accounts without customer production workloads.
 
-
 ### maintainers notes
 
 1. .gitignore comments
