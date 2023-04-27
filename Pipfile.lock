@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "270ad5e384c5d4f8bebab10c9454cfdedce3b6414ea06a8406f2a250aefa6f3d"
+            "sha256": "98d012e9957aca6f93d042925e9da860c3038c35c91273927f4d1d21de8e378a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,7 +15,16 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "iam-credential-rotation": {
+            "hashes": [
+                "sha256:5d3d662fa604703bc4969ddab3af7c6bb4f7eb1f478235b8a0c7cd9d754c2eb5",
+                "sha256:db76a77bffe58e337867b4d11dc6b3e62933d1b2881382d9fb9932e296efbd54"
+            ],
+            "index": "pypi",
+            "version": "==0.1.1"
+        }
+    },
     "develop": {
         "aiodns": {
             "hashes": [

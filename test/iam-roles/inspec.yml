@@ -1,0 +1,11 @@
+name: psk-aws-iam-profiles
+title: InSpec Profile
+maintainer: twdps-core-labs-team
+copyright_email: twdps.io@gmail.com
+license: MIT
+version: 0.1.0
+supports:
+  - platform: aws
+depends:
+  - name: inspec-aws
+    url:  https://github.com/inspec/inspec-aws/archive/v1.83.60.tar.gz

@@ -126,7 +126,7 @@ workflows:
                 account: nonprod
           after-terraform:
             - do/slack-webhook:
-                message: lab-iam-profile nonprod deployment
+                message: psk-aws-iam-profile nonprod deployment
                 webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
           requires:
             - approve nonprod changes
