@@ -144,41 +144,41 @@ workflows:
             - approve nonprod changes
           filters: *on-push-main
 
-  # deploy roles to prod:
-  #   jobs:
-  #     - terraform/plan:
-  #         name: prod change plan
-  #         context: << pipeline.parameters.context >>
-  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-  #         workspace: prod
-  #         before-terraform:
-  #           - set-environment:
-  #               account: prod
-  #         filters: *on-tag-main
+  deploy roles to prod:
+    jobs:
+      - terraform/plan:
+          name: prod change plan
+          context: << pipeline.parameters.context >>
+          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+          workspace: prod
+          before-terraform:
+            - set-environment:
+                account: prod
+          filters: *on-tag-main
 
-  #     - approve prod changes:
-  #         type: approval
-  #         requires:
-  #           - prod change plan
-  #         filters: *on-tag-main
+      - approve prod changes:
+          type: approval
+          requires:
+            - prod change plan
+          filters: *on-tag-main
 
-  #     - terraform/apply:
-  #         name: apply prod changes
-  #         context: << pipeline.parameters.context >>
-  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-  #         workspace: prod
-  #         before-terraform:
-  #           - set-environment:
-  #               account: prod
-  #         after-terraform:
-  #           - aws-integration-tests:
-  #               account: prod
-  #           - do/slack-webhook:
-  #               message: psk-aws-iam-profile prod release
-  #               webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
-  #         requires:
-  #           - approve prod changes
-  #         filters: *on-tag-main
+      - terraform/apply:
+          name: apply prod changes
+          context: << pipeline.parameters.context >>
+          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+          workspace: prod
+          before-terraform:
+            - set-environment:
+                account: prod
+          after-terraform:
+            - aws-integration-tests:
+                account: prod
+            - do/slack-webhook:
+                message: psk-aws-iam-profile prod release
+                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+          requires:
+            - approve prod changes
+          filters: *on-tag-main
 
   # generate-release-notes:
   #   jobs:
