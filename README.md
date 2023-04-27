@@ -32,3 +32,5 @@ Python used only for the local git commit-hook configuration; e.g., use of pre-c
 * check the common file-types in the repo for syntax
 * check for aws credentials
 * scan terraform files for syntax, standard style, and secure configuration
+
+driftctl scan --from tfstate+tfcloud://twdps/psk-aws-iam-profiles-nonprod

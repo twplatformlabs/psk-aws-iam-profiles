@@ -15,14 +15,15 @@ parameters:
     description: circleci context for all jobs
     type: string
     default: twdps-core-labs-team
+  executor-image:
+   description: image to use for non-orb defined jobs
+   type: string
+   default: twdps/circleci-infra-aws:alpine-stable
   # terraform-version:
   #   description: terraform version for all jobs
   #   type: string
   #   default: "1.4.2"
-  # executor-image:
-  #  description: image to use for terraform runs
-  #  type: string
-  #  default: twdps/circleci-infra-aws:alpine-stable
+
 
 # ============================================================ triggers
 
@@ -78,6 +79,28 @@ commands:
           name: create or rotate the service account credentials
           command: bash scripts/rotate_svc_acct_credentials.sh << parameters.account >>
 
+jobs:
+
+  recurring-integration-tests:
+    description: |
+      Recurring job (nightly) to run pipeline integration tests and attempt to detect aws configuration drift
+    docker:
+      - image: << pipeline.parameters.executor-image >>
+    environment:
+      TF_WORKSPACE: << parameters.account >>
+    shell: op run --env-file op.<< parameters.account >>.env -- /bin/sh -eo pipefail
+    parameters:
+      account:
+        description: nonprod or production account configuration
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker
+      - set-environment:
+          account: << parameters.account >>
+      - aws-integration-tests:
+          account: nonprod
+
 # ============================================================ workflows
 
 workflows:
@@ -114,9 +137,9 @@ workflows:
                 account: nonprod
             - rotate-service-account-credentials:
                 account: nonprod
-            - do/slack-webhook:
-                message: psk-aws-iam-profile nonprod deployment
-                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+            # - do/slack-webhook:
+            #     message: psk-aws-iam-profile nonprod deployment
+            #     webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
           requires:
             - approve nonprod changes
           filters: *on-push-main
@@ -177,22 +200,17 @@ workflows:
   #         on-tag: true
   #         filters: *on-tag-main
 
-  # nightly iam profiles configuration validation:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 1 * * *"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - main
-  #   jobs:
-  #     - validate configuration and store profile credentials:
-  #         name: nightly nonprod iam profiles validation
-  #         context: << pipeline.parameters.context >>
-  #         account: nonprod
-  #         test-only: true
-  #     - validate configuration and store profile credentials:
-  #         name: nightly prod iam profiles validation
-  #         context: << pipeline.parameters.context >>
-  #         account: prod
-  #         test-only: true
+  nightly configuration checks:
+  # #   triggers:
+  # #     - schedule:
+  # #         cron: "0 1 * * *"
+  # #         filters:
+  # #           branches:
+  # #             only:
+  # #               - main
+    jobs:
+      - recurring-integration-tests:
+          name: nightly nonprod psk-aws-iam-profiles validation
+          context: << pipeline.parameters.context >>
+          account: nonprod
+          filters: *on-push-main
