@@ -4,9 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+iam-credential-rotation = "0.1.1"
 
 [dev-packages]
-checkov = "*"
+checkov = "2.3.199"
 pre-commit = "3.2.2"
 
 [requires]
