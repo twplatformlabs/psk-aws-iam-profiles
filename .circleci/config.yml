@@ -7,23 +7,24 @@ orbs:
   op: twdps/onepassword@1.0.0
   do: twdps/pipeline-events@0.1.0
 
-# ==== global pipeline parameters
+# ============================================================ global pipeline parameters
 
 parameters:
-  #  terraform-version:
-  #  description: terraform version for all jobs
-  #  type: string
-  #  default: "1.4.2"
+
   context:
     description: circleci context for all jobs
     type: string
     default: twdps-core-labs-team
+  # terraform-version:
+  #   description: terraform version for all jobs
+  #   type: string
+  #   default: "1.4.2"
   # executor-image:
   #  description: image to use for terraform runs
   #  type: string
   #  default: twdps/circleci-infra-aws:alpine-stable
 
-# ==== triggers
+# ============================================================ triggers
 
 on-push-main: &on-push-main
   branches:
@@ -36,6 +37,8 @@ on-tag-main: &on-tag-main
     ignore: /.*/
   tags:
     only: /.*/
+
+# ============================================================ commands and jobs
 
 commands:
 
@@ -75,47 +78,7 @@ commands:
           name: create or rotate the service account credentials
           command: bash scripts/rotate_svc_acct_credentials.sh << parameters.account >>
 
-# jobs:
-
-
-
-  # validate configuration and store profile credentials:
-  #   description: |
-  #     bats tests of the resulting infrastructure resources and write the service accounts
-  #     credentials when successful during create_iam_profiles run.
-  #   docker:
-  #     - image: << pipeline.parameters.executor-image >>
-  #   environment:
-  #     TF_WORKSPACE: << parameters.account >>
-  #   shell: op run --env-file op.<< parameters.account >>.env -- /bin/sh -eo pipefail
-  #   parameters:
-  #     account:
-  #       description: nonprod or production account configuration
-  #       type: string
-  #     test-only:
-  #       description: run validation only without writing credentials
-  #       type: boolean
-  #       default: false
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker
-  #     - set-environment:
-  #         account: << parameters.account >>
-  #     - run:
-  #         name: test << parameters.account >> configuration
-  #         command: bash scripts/test_configuration.sh << parameters.account >>
-  #     - when:
-  #         condition:
-  #           and:
-  #             - equal: [ << parameters.account >>, "nonprod" ]
-  #             - equal: [ << parameters.test-only >>, false ]
-  #         steps:
-  #           - terraform/setup-packages:
-  #               terraform-version: << pipeline.parameters.terraform-version >>
-  #           - run:
-  #               name: write service account credentials when create_iam_profiles = true
-  #               command: |
-  #                 bash scripts/write_service_account_credentials.sh
+# ============================================================ workflows
 
 workflows:
   version: 2
@@ -151,20 +114,12 @@ workflows:
                 account: nonprod
             - rotate-service-account-credentials:
                 account: nonprod
-          #   - do/slack-webhook:
-          #       message: psk-aws-iam-profile nonprod deployment
-          #       webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+            - do/slack-webhook:
+                message: psk-aws-iam-profile nonprod deployment
+                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
           requires:
             - approve nonprod changes
           filters: *on-push-main
-
-  #     - validate configuration and store profile credentials:
-  #         name: test nonprod iam profiles configuration
-  #         context: << pipeline.parameters.context >>
-  #         account: nonprod
-  #         requires:
-  #           - apply nonprod changes
-  #         filters: *on-push-main
 
   # deploy roles to prod:
   #   jobs:
