@@ -15,7 +15,7 @@ describe aws_iam_group(group_name: 'PSKNonprodServiceAccountGroup') do
   its('users') { should include('PSKNonprodServiceAccount') }
 end
 
-describe aws_iam_group(group_name: 'PSKProdServiceAccount') do
+describe aws_iam_group(group_name: 'PSKProdServiceAccountGroup') do
   it { should exist }
   its('users') { should include('PSKProdServiceAccount') }
 end
