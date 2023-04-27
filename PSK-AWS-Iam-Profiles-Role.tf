@@ -9,6 +9,7 @@ module "PSKIamProfilesRole" {
   create_role = true
 
   role_name                         = "PSKIamProfilesRole"
+  role_path                         = "/PSKRoles/"
   role_requires_mfa                 = false
   custom_role_policy_arns           = [aws_iam_policy.PSKIamProfilesRolePolicy.arn]
   number_of_custom_role_policy_arns = 1
@@ -20,7 +21,7 @@ module "PSKIamProfilesRole" {
 #tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_policy" "PSKIamProfilesRolePolicy" {
   name = "PSKIamProfilesRolePolicy"
-  path = "/PSKRoles/"
+  path = "/PSKPolicies/"
 
   policy = jsonencode({
     "Version" : "2012-10-17"
