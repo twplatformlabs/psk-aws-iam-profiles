@@ -7,3 +7,4 @@ machine_credentials.*
 .python-version
 Pipfile
 Pipfile.lock
+credentials
