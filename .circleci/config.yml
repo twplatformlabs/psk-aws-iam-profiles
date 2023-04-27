@@ -65,6 +65,16 @@ commands:
           name: InSpec tests of managed AWS resources
           command: bash scripts/run_inspec_integration_tests.sh << parameters.account >>
 
+  rotate-service-account-credentials:
+    parameters:
+      account:
+        description: for EMPC Labs this is either nonprod or prod
+        type: string
+    steps:
+      - run:
+          name: create or rotate the service account credentials
+          command: bash scripts/rotate_svc_acct_credentials.sh << parameters.account >>
+
 # jobs:
 
 
@@ -138,6 +148,8 @@ workflows:
                 account: nonprod
           after-terraform:
             - aws-integration-tests:
+                account: nonprod
+            - rotate-service-account-credentials:
                 account: nonprod
           #   - do/slack-webhook:
           #       message: psk-aws-iam-profile nonprod deployment
