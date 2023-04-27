@@ -55,7 +55,19 @@ commands:
           name: set << parameters.account >> environment variables
           command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
 
-jobs:
+  test account configuration:
+    parameters:
+      account:
+        description: for EMPC Labs this is either nonprod or prod
+        type: string
+    steps:
+      - run:
+          name: InSpec tests of managed AWS resources
+          command: bash scripts/run_inspec_integration_tests.sh << parameters.account >>
+
+# jobs:
+
+
 
   # validate configuration and store profile credentials:
   #   description: |
@@ -124,7 +136,9 @@ workflows:
           before-terraform:
             - set-environment:
                 account: nonprod
-          # after-terraform:
+          after-terraform:
+            - test account configuration:
+                account: nonprod
           #   - do/slack-webhook:
           #       message: psk-aws-iam-profile nonprod deployment
           #       webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK

@@ -9,6 +9,7 @@ export AWS_SECRET_ACCESS_KEY=$(cat credentials | jq -r ".Credentials.SecretAcces
 export AWS_SESSION_TOKEN=$(cat credentials | jq -r ".Credentials.SessionToken")
 export AWS_DEFAULT_REGION=$(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_region)
 
+# test roles
 inspec exec test/iam-roles -t aws://
 
 # if this is the state account then test the profiles
