@@ -28,10 +28,10 @@ provider "aws" {
   # this section commented out during the initial bootstrap run.
   # once the assumeable roles are created, uncomment and change
   # op.*.env to contain the appropriate service account identity
-  # assume_role {
-  #   role_arn     = "arn:aws:iam::${var.aws_account_id}:role/${var.aws_account_role}"
-  #   session_name = "lab-iam-profiles"
-  # }
+  assume_role {
+    role_arn     = "arn:aws:iam::${var.aws_account_id}:role/${var.aws_account_role}"
+    session_name = "lab-iam-profiles"
+  }
 
   default_tags {
     tags = {

@@ -1,6 +1,7 @@
 {
   "aws_region": "us-east-1",
   "aws_account_id": "{{ op://empc-lab/aws-dps-2/aws-account-id }}",
+  "aws_account_role": "PSKIamProfilesRole",
 
   "is_state_account": true,
   "state_account_id": "{{ op://empc-lab/aws-dps-2/aws-account-id }}",

@@ -13,6 +13,11 @@ variable "aws_account_id" {
   }
 }
 
+variable "aws_account_role" {
+  description = "role for pipeline service account to assume"
+  type        = string
+}
+
 variable "is_state_account" {
   description = "create STATE account configuration"
   type        = bool
