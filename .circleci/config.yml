@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   #checkov:skip=CKV_CIRCLECIPIPELINES_3
-  terraform: twdps/terraform@dev:latest
+  terraform: twdps/terraform@0.7.0
   op: twdps/onepassword@1.0.0
   do: twdps/pipeline-events@0.1.0
 
@@ -124,10 +124,10 @@ workflows:
           before-terraform:
             - set-environment:
                 account: nonprod
-          after-terraform:
-            - do/slack-webhook:
-                message: psk-aws-iam-profile nonprod deployment
-                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+          # after-terraform:
+          #   - do/slack-webhook:
+          #       message: psk-aws-iam-profile nonprod deployment
+          #       webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
           requires:
             - approve nonprod changes
           filters: *on-push-main
