@@ -12,6 +12,10 @@ Repo Documentation
 
 diagram of the service account configuration and relationship to roles
 
+### about Roles
+
+As you can see from the above diagram, platform roles are ubiquitous. Each account used by the
+
 ### maintainers notes
 
 1. .gitignore comments
