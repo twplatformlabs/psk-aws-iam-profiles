@@ -29,7 +29,7 @@ provider "aws" {
   # once the assumeable roles are created, uncomment and change
   # op.*.env to contain the appropriate service account identity
   assume_role {
-    role_arn     = "arn:aws:iam::${var.aws_account_id}:role/${var.aws_account_role}"
+    role_arn     = "arn:aws:iam::${var.aws_account_id}:role/${var.aws_assume_role}"
     session_name = "psk-aws-iam-profiles"
   }
 

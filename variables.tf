@@ -13,7 +13,7 @@ variable "aws_account_id" {
   }
 }
 
-variable "aws_account_role" {
+variable "aws_assume_role" {
   description = "role for pipeline service account to assume"
   type        = string
 }
