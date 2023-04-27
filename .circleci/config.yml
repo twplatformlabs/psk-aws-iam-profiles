@@ -137,9 +137,9 @@ workflows:
                 account: nonprod
             - rotate-service-account-credentials:
                 account: nonprod
-            # - do/slack-webhook:
-            #     message: psk-aws-iam-profile nonprod deployment
-            #     webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+            - do/slack-webhook:
+                message: psk-aws-iam-profile nonprod deployment
+                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
           requires:
             - approve nonprod changes
           filters: *on-push-main
@@ -151,8 +151,6 @@ workflows:
   #         context: << pipeline.parameters.context >>
   #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
   #         workspace: prod
-  #         executor-image: << pipeline.parameters.executor-image >>
-  #         terraform-version: << pipeline.parameters.terraform-version >>
   #         before-terraform:
   #           - set-environment:
   #               account: prod
@@ -169,26 +167,17 @@ workflows:
   #         context: << pipeline.parameters.context >>
   #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
   #         workspace: prod
-  #         executor-image: << pipeline.parameters.executor-image >>
-  #         terraform-version: << pipeline.parameters.terraform-version >>
   #         before-terraform:
   #           - set-environment:
   #               account: prod
   #         after-terraform:
-  #           - do/circle-deploy
+  #           - aws-integration-tests:
+  #               account: prod
   #           - do/slack-webhook:
-  #               message: lab-iam-profile prod release
+  #               message: psk-aws-iam-profile prod release
   #               webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
   #         requires:
   #           - approve prod changes
-  #         filters: *on-tag-main
-
-  #     - validate configuration and store profile credentials:
-  #         name: test prod iam profiles configuration
-  #         context: << pipeline.parameters.context >>
-  #         account: prod
-  #         requires:
-  #           - apply prod changes
   #         filters: *on-tag-main
 
   # generate-release-notes:
@@ -201,16 +190,15 @@ workflows:
   #         filters: *on-tag-main
 
   nightly configuration checks:
-  # #   triggers:
-  # #     - schedule:
-  # #         cron: "0 1 * * *"
-  # #         filters:
-  # #           branches:
-  # #             only:
-  # #               - main
+    triggers:
+      - schedule:
+          cron: "0 1 * * *"
+          filters:
+            branches:
+              only:
+                - main
     jobs:
       - recurring-integration-tests:
           name: nightly nonprod psk-aws-iam-profiles validation
           context: << pipeline.parameters.context >>
           account: nonprod
-          filters: *on-push-main
