@@ -14,7 +14,7 @@ parameters:
   context:
     description: circleci context for all jobs
     type: string
-    default: twdps-core-labs-team
+    default: empc-lab
   executor-image:
    description: image to use for non-orb defined jobs
    type: string
@@ -181,18 +181,6 @@ workflows:
           requires:
             - approve prod changes
           filters: *on-tag-main
-
-  # generate-release-notes:
-  #   jobs:
-  #     - do/release:
-  #         name: production release notes
-  #         context: << pipeline.parameters.context >>
-  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-  #         on-tag: true
-  #         before-release:
-  #           - op/env:
-  #               env-file: op.prod.env
-  #         filters: *on-tag-main
 
   nightly configuration checks:
     triggers:

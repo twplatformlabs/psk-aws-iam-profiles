@@ -32,3 +32,11 @@ Python used only for the local git commit-hook configuration; e.g., use of pre-c
 * check the common file-types in the repo for syntax
 * check for aws credentials
 * scan terraform files for syntax, standard style, and secure configuration
+
+4. static analysis performed
+
+* [tflint](https://github.com/terraform-linters/tflint)
+* [tfsec](https://github.com/aquasecurity/tfsec)
+* terraform fmt
+* terraform validate
+* [checkov](https://github.com/bridgecrewio/checkov)
