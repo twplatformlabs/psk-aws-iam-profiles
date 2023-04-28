@@ -176,18 +176,23 @@ workflows:
             - do/slack-webhook:
                 message: psk-aws-iam-profile prod release
                 webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+            - do/release-notes:
+                on-tag: true
           requires:
             - approve prod changes
           filters: *on-tag-main
 
-  generate-release-notes:
-    jobs:
-      - do/release:
-          name: production release notes
-          context: << pipeline.parameters.context >>
-          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          on-tag: true
-          filters: *on-tag-main
+  # generate-release-notes:
+  #   jobs:
+  #     - do/release:
+  #         name: production release notes
+  #         context: << pipeline.parameters.context >>
+  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+  #         on-tag: true
+  #         before-release:
+  #           - op/env:
+  #               env-file: op.prod.env
+  #         filters: *on-tag-main
 
   nightly configuration checks:
     triggers:
