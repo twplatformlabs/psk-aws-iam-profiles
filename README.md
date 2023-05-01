@@ -16,14 +16,14 @@ This pipeline manages:
 main.tf  
 
 <div align="center">
-	<img alt="architecture1.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture1.png" width=700 />
+	<img alt="architecture1.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture1.png" width=800 />
 </div>
 
 **Pipeline Roles (permissions)**  
 
 Each pipeline role has a matching, named role file.  
 <div align="center">
-	<img alt="architecture2.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture2.png" width=700 />
+	<img alt="architecture2.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture2.png" width=800 />
 </div>
 
 ### about access permissions  
