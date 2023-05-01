@@ -8,3 +8,4 @@ machine_credentials.*
 Pipfile
 Pipfile.lock
 credentials
+.DS_Store
