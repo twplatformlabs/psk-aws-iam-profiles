@@ -1,6 +1,6 @@
-# Iam-Profiles role
+# PSKIamProfilesRole
 #
-# Used by: PSK-AWS-Iam-Profiles pipeline
+# Used by: psk-aws-iam-profiles pipeline
 # manages iam policy for platform roles, groups, and service accounts
 
 module "PSKIamProfilesRole" {

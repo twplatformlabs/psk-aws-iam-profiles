@@ -7,7 +7,7 @@
 	</p>
 </div>
 
-Go [here] for the arachitectural overview of an AWS-based Engineering Platform.  
+Go [here](https://github.com/ThoughtWorks-DPS/lab-documentation/blob/master/doc/architecture.md) for the arachitectural overview of an AWS-based Engineering Platform.  
 
 This pipeline manages:  
 
