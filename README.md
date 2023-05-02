@@ -7,11 +7,12 @@
 	</p>
 </div>
 
-Go [here](https://github.com/ThoughtWorks-DPS/lab-documentation/blob/master/doc/architecture.md) for the arachitectural overview of an AWS-based Engineering Platform.  
+Go [here](https://github.com/ThoughtWorks-DPS/lab-documentation/blob/master/doc/architecture.md) for the architectural overview of an AWS-based Engineering Platform.  
 
 This pipeline manages:  
 
 **Product service accounts**  
+Two service accounts (machine users) are defined for use in the Engineering Platform teams AWS IAM-based identity pipelines. The service accounts do not have any permission policies assigned directly but are instead added to either the non-production or the production Group as appropriate. The groups have policies attached that enable assumption of any PSKRoles in the product accounts.  
 
 main.tf  
 

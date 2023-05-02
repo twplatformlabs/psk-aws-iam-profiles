@@ -7,7 +7,7 @@ orbs:
   op: twdps/onepassword@1.0.0
   do: twdps/pipeline-events@0.2.0
 
-# ============================================================ global pipeline parameters
+# ============================================================ pipeline parameters
 
 parameters:
 
@@ -22,10 +22,7 @@ parameters:
   # terraform-version:
   #   description: terraform version for all jobs
   #   type: string
-  #   default: "1.4.2"
-
-
-# ============================================================ triggers
+  #   default: "1.4.6"
 
 on-push-main: &on-push-main
   branches:
