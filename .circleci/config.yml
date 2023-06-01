@@ -181,7 +181,7 @@ workflows:
           scheduled-pipeline-description: |
             Nightly, automated run of iam-profiles integration tests.
           hours-of-day: "[1]"
-          days-of-week: "[\"SUN\", \"MON\",\"TUE\",\"WED\",\"THU\",]"
+          days-of-week: "[\"SUN\", \"MON\",\"TUE\",\"WED\",\"THU\"]"
           filters: *on-tag-main
 
   nightly integration test:
