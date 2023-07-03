@@ -1,10 +1,10 @@
 variable "aws_region" {
-  description = "default aws region"
+  description = "use aws region"
   type        = string
 }
 
 variable "aws_account_id" {
-  description = "default aws account id"
+  description = "use aws account id"
   type        = string
 
   validation {
