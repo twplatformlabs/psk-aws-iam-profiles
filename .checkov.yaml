@@ -19,4 +19,5 @@ skip-check:
   - CKV_AWS_289
   - CKV_AWS_61   # by design, the machine accounts can assume all roles
   - CKV_AWS_290
+  - CKV_AWS_355  # appropriate use for Tag*
   - CKV_CIRCLECIPIPELINES_2  # this check is apparently unable to recognize that I did pin the image tag
