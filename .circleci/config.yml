@@ -43,8 +43,7 @@ commands:
           command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
       - run:
           name: set << parameters.account >> environment variables
-          command: envsubst < environments/<< parameters.account >>.auto.tfvars.json.tpl > << parameters.account >>.auto.tfvars.json
-          #op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
+          command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
 
   aws-integration-tests:
     parameters:
