@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   #checkov:skip=CKV_CIRCLECIPIPELINES_3
-  terraform: twdps/terraform@0.8.0
+  terraform: twdps/terraform@0.13.0
   op: twdps/onepassword@1.0.0
   do: twdps/pipeline-events@1.0.0
 
@@ -43,7 +43,8 @@ commands:
           command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
       - run:
           name: set << parameters.account >> environment variables
-          command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
+          command: envsubst < environments/<< parameters.account >>.auto.tfvars.json > << parameters.account >>.auto.tfvars.json
+          #op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
 
   aws-integration-tests:
     parameters:
