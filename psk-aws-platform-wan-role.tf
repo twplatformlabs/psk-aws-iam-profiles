@@ -5,7 +5,7 @@
 
 module "PSKPlatformWANRole" {
   source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version     = "~> 5.25.0"
+  version     = "~> 5.27.0"
   create_role = true
 
   role_name                         = "PSKPlatformWANRole"

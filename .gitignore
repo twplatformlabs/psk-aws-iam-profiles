@@ -9,3 +9,4 @@ Pipfile
 Pipfile.lock
 credentials
 .DS_Store
+source.env
