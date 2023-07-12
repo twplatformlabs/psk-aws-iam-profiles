@@ -1,4 +1,10 @@
-variable "aws_region" { type = string }
+variable "aws_region" {
+  type = string
+  validation {
+    condition     = can(regex("[a-z][a-z]-[a-z]+-[1-9]", var.aws_region))
+    error_message = "Invalid AWS Region name."
+  }
+}
 
 variable "aws_account_id" {
   type = string
