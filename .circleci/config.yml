@@ -58,7 +58,7 @@ commands:
   rotate-service-account-credentials:
     parameters:
       account:
-        description: for EMPC Labs this is either nonprod or prod
+        description: for EMPC Labs, this is either nonprod or prod
         type: string
     steps:
       - run:
