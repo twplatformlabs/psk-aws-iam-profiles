@@ -19,7 +19,7 @@ EP infrastructure service account must be placed within the `/PSKServiceAccounts
 
 _Roles_  
 
-By convention, a unique role is created to match each infrastructure pipeline. A separate terrform file is created for each role, named to match the githu repository of the pipeline that uses the role.  
+By convention, a unique role is created to match each infrastructure pipeline. A separate terrform file is created for each role, named to match the github repository of the pipeline that uses the role.  
 
 EP infrastructure roles must be placed within the `/PSKRoles/` IAM Role path in order for the dependent service account to be able to assume.  
 

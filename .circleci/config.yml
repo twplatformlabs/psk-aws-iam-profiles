@@ -191,8 +191,10 @@ workflows:
       equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - recurring-integration-tests:
+          name: Nonprod Svc Acct rotation and Profiles test
           context: *context
           account: nonprod
       - recurring-integration-tests:
+          name: Prod Svc Acct rotation and Profiles test
           context: *context
           account: prod
