@@ -3,15 +3,15 @@ version: 2.1
 
 orbs:
   #checkov:skip=CKV_CIRCLECIPIPELINES_3
-  terraform: twdps/terraform@0.13.0
-  op: twdps/onepassword@1.0.0
+  terraform: twdps/terraform@0.15.0
+  op: twdps/onepassword@1.2.0
   do: twdps/pipeline-events@1.0.0
 
 # ============================================================ pipeline globals
 
 globals:
   - &context empc-lab
-  - &executor-image twdps/circleci-infra-aws:alpine-4.11.0
+  - &executor-image twdps/circleci-infra-aws:alpine-4.16.0
 
 on-push-main: &on-push-main
   branches:
