@@ -4,8 +4,9 @@
 # manages platform networks
 
 module "PSKPlatformVPCRole" {
-  source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version     = "~> 5.27.0"
+  source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+  #checkov:skip=CKV_TF_1
+  version     = "5.30.0"
   create_role = true
 
   role_name                         = "PSKPlatformVPCRole"
