@@ -11,8 +11,8 @@ Go [here](https://github.com/ThoughtWorks-DPS/lab-documentation/blob/master/doc/
 
 This pipeline manages:  
 
-**Product service accounts**  
-Two service accounts (machine users) are defined for use in the Engineering Platform teams AWS IAM-based identity pipelines. The service accounts do not have any permission policies assigned directly but are instead added to either the non-production or the production Group as appropriate. The groups have policies attached that enable assumption of any PSKRoles in the product accounts.  
+**Product cloud infrastructure provider service accounts**  
+Two service accounts (machine users) are defined for use in the Engineering Platform teams AWS infratructure pipelines. The service accounts do not have any permission assigned directly but are instead added to either the non-production or the production Group as appropriate. The groups have policies attached that enable assumption of any PSKRoles in the related product accounts.  
 
 main.tf  
 
@@ -20,9 +20,12 @@ main.tf
 	<img alt="architecture1.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture1.png" width=800 />
 </div>
 
+The diagram represents the typical configuration for an initial engineering platform on AWS. The PSK code will be limited to a two-account configuration for budgetary reasons.  
+
 **Pipeline Roles (permissions)**  
 
 Each pipeline role has a matching, named role file.  
+
 <div align="center">
 	<img alt="architecture2.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture2.png" width=800 />
 </div>

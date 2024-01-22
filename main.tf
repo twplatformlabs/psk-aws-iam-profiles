@@ -4,13 +4,13 @@
 # which accounts the identity may assume a role.
 
 # Non-production service account identity ===============================================
-# For assuming roles in non-production and non-customer facing environments. A separate pipeline step
+# For assuming roles in non-production and also non-customer facing environments. A separate pipeline step
 # will create and store the service account credentials in the secrets store
 
 module "PSKNonprodServiceAccount" {
   source = "terraform-aws-modules/iam/aws//modules/iam-user"
   #checkov:skip=CKV_TF_1
-  version = "5.30.0"
+  version = "5.33.0"
 
   create_user                   = var.is_state_account
   name                          = "PSKNonprodServiceAccount"
@@ -24,7 +24,7 @@ module "PSKNonprodServiceAccount" {
 module "PSKNonprodServiceAccountGroup" {
   source = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
   #checkov:skip=CKV_TF_1
-  version = "5.30.0"
+  version = "5.33.0"
 
   count           = var.is_state_account ? 1 : 0
   name            = "PSKNonprodServiceAccountGroup"
@@ -37,7 +37,6 @@ module "PSKNonprodServiceAccountGroup" {
   ]
 }
 
-
 # Production service account identity ====================================================
 # For assuming roles in all environments (including customer facing). A separate pipeline step
 # will create and store the service account credentials in the secrets store
@@ -45,7 +44,7 @@ module "PSKNonprodServiceAccountGroup" {
 module "PSKProdServiceAccount" {
   source = "terraform-aws-modules/iam/aws//modules/iam-user"
   #checkov:skip=CKV_TF_1
-  version = "5.30.0"
+  version = "5.33.0"
 
   create_user                   = var.is_state_account
   name                          = "PSKProdServiceAccount"
@@ -59,7 +58,7 @@ module "PSKProdServiceAccount" {
 module "PSKProdServiceAccountGroup" {
   source = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
   #checkov:skip=CKV_TF_1
-  version = "5.30.0"
+  version = "5.33.0"
 
   count           = var.is_state_account ? 1 : 0
   name            = "PSKProdServiceAccountGroup"

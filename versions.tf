@@ -1,10 +1,10 @@
 terraform {
   # pin major.minor versions
-  required_version = "~> 1.6"
+  required_version = "~> 1.7"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.21"
+      version = "~> 5.33"
     }
   }
 

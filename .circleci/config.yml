@@ -3,15 +3,15 @@ version: 2.1
 
 orbs:
   #checkov:skip=CKV_CIRCLECIPIPELINES_3
-  terraform: twdps/terraform@0.15.0
-  op: twdps/onepassword@1.2.0
-  do: twdps/pipeline-events@1.0.0
+  terraform: twdps/terraform@2.0.0
+  op: twdps/onepassword@2.0.6
+  do: twdps/pipeline-events@3.2.1
 
 # ============================================================ pipeline globals
 
 globals:
   - &context empc-lab
-  - &executor-image twdps/circleci-infra-aws:alpine-4.16.0
+  - &executor-image twdps/circleci-infra-aws:alpine-5.0.0
 
 on-push-main: &on-push-main
   branches:
@@ -92,109 +92,130 @@ jobs:
 # ============================================================ workflows
 
 workflows:
-  version: 2
 
   deploy psk profiles and roles to nonprod:
     when:
       not:
         equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
-      - terraform/plan:
-          name: nonprod change plan
+      - terraform/static-analysis:
+          name: static code analysis
+          executor-image: *executor-image
           context: *context
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           workspace: nonprod
-          before-terraform:
-            - set-environment:
-                account: nonprod
+          tflint-scan: true
+          tflint-provider: aws
+          snyk-scan: true
+          snyk-organization: twdps
+          snyk-additional-args: --report --target-name=orb-terraform-ci
           filters: *on-push-main
 
-      - approve nonprod changes:
-          type: approval
-          requires:
-            - nonprod change plan
-          filters: *on-push-main
+      # - terraform/static-analysis:
+      #     name: static code analysis
+      #     context: *context
+      #     shell: *shell
+      #     tflint-scan: true
+      #     tflint-provider: aws
+      #     trivy-scan: true
+      #     trivy-commandline-args: config . --exit-code 0
 
-      - terraform/apply:
-          name: apply nonprod changes
-          context: *context
-          shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-          workspace: nonprod
-          before-terraform:
-            - set-environment:
-                account: nonprod
-          after-terraform:
-            - aws-integration-tests:
-                account: nonprod
-            - rotate-service-account-credentials:
-                account: nonprod
-            - do/slack-webhook:
-                message: psk-aws-iam-profile nonprod deployment
-                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
-          requires:
-            - approve nonprod changes
-          filters: *on-push-main
+      # - terraform/plan:
+      #     name: nonprod change plan
+      #     context: *context
+      #     shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+      #     workspace: nonprod
+      #     before-terraform:
+      #       - set-environment:
+      #           account: nonprod
+      #     filters: *on-push-main
 
-  deploy roles to prod:
-    jobs:
-      - terraform/plan:
-          name: prod change plan
-          context: *context
-          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          workspace: prod
-          before-terraform:
-            - set-environment:
-                account: prod
-          filters: *on-tag-main
+      # - approve nonprod changes:
+      #     type: approval
+      #     requires:
+      #       - nonprod change plan
+      #     filters: *on-push-main
 
-      - approve prod changes:
-          type: approval
-          requires:
-            - prod change plan
-          filters: *on-tag-main
+      # - terraform/apply:
+      #     name: apply nonprod changes
+      #     context: *context
+      #     shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+      #     workspace: nonprod
+      #     before-terraform:
+      #       - set-environment:
+      #           account: nonprod
+      #     after-terraform:
+      #       - aws-integration-tests:
+      #           account: nonprod
+      #       - rotate-service-account-credentials:
+      #           account: nonprod
+      #       - do/slack-webhook:
+      #           message: psk-aws-iam-profile nonprod deployment
+      #           webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+      #     requires:
+      #       - approve nonprod changes
+      #     filters: *on-push-main
 
-      - terraform/apply:
-          name: apply prod changes
-          context: *context
-          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          workspace: prod
-          before-terraform:
-            - set-environment:
-                account: prod
-          after-terraform:
-            - aws-integration-tests:
-                account: prod
-            - do/slack-webhook:
-                message: psk-aws-iam-profile prod release
-                webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
-            - do/release-notes:
-                on-tag: true
-          requires:
-            - approve prod changes
-          filters: *on-tag-main
+  # deploy roles to prod:
+  #   jobs:
+  #     - terraform/plan:
+  #         name: prod change plan
+  #         context: *context
+  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+  #         workspace: prod
+  #         before-terraform:
+  #           - set-environment:
+  #               account: prod
+  #         filters: *on-tag-main
 
-  schedule weekly rotation and integration test:
-    jobs:
-      - do/schedule-pipeline:
-          name: weekly integration test and rotation
-          context: *context
-          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          scheduled-pipeline-name: weekly-integration-test
-          scheduled-pipeline-description: |
-            Weekly, automated run of iam-credential-rotation and iam-profiles integration tests.
-          hours-of-day: "[1]"
-          days-of-week: "[\"SUN\"]"
-          filters: *on-tag-main
+  #     - approve prod changes:
+  #         type: approval
+  #         requires:
+  #           - prod change plan
+  #         filters: *on-tag-main
 
-  weekly integration test:
-    when:
-      equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
-    jobs:
-      - recurring-integration-tests:
-          name: Nonprod Svc Acct rotation and Profiles test
-          context: *context
-          account: nonprod
-      - recurring-integration-tests:
-          name: Prod Svc Acct rotation and Profiles test
-          context: *context
-          account: prod
+  #     - terraform/apply:
+  #         name: apply prod changes
+  #         context: *context
+  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+  #         workspace: prod
+  #         before-terraform:
+  #           - set-environment:
+  #               account: prod
+  #         after-terraform:
+  #           - aws-integration-tests:
+  #               account: prod
+  #           - do/slack-webhook:
+  #               message: psk-aws-iam-profile prod release
+  #               webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+  #           - do/release-notes:
+  #               on-tag: true
+  #         requires:
+  #           - approve prod changes
+  #         filters: *on-tag-main
+
+  # schedule weekly rotation and integration test:
+  #   jobs:
+  #     - do/schedule-pipeline:
+  #         name: weekly integration test and rotation
+  #         context: *context
+  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+  #         scheduled-pipeline-name: weekly-integration-test
+  #         scheduled-pipeline-description: |
+  #           Weekly, automated run of iam-credential-rotation and iam-profiles integration tests.
+  #         hours-of-day: "[1]"
+  #         days-of-week: "[\"SUN\"]"
+  #         filters: *on-tag-main
+
+  # weekly integration test:
+  #   when:
+  #     equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+  #   jobs:
+  #     - recurring-integration-tests:
+  #         name: Nonprod Svc Acct rotation and Profiles test
+  #         context: *context
+  #         account: nonprod
+  #     - recurring-integration-tests:
+  #         name: Prod Svc Acct rotation and Profiles test
+  #         context: *context
+  #         account: prod

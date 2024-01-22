@@ -25,6 +25,10 @@ variable "is_state_account" {
 variable "state_account_id" {
   description = "arn principal root reference to state account id where all svc accounts are defined"
   type        = string
+  validation {
+    condition     = length(var.state_account_id) == 12 && can(regex("^\\d{12}$", var.state_account_id))
+    error_message = "Invalid AWS account ID"
+  }
 }
 
 variable "all_nonprod_account_roles" {
