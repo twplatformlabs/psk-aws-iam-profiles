@@ -84,8 +84,8 @@ jobs:
       - setup_remote_docker
       - set-environment:
           account: << parameters.account >>
-      # - rotate-service-account-credentials:
-      #     account: << parameters.account >>
+      - rotate-service-account-credentials:
+          account: << parameters.account >>
       - aws-integration-tests:
           account: << parameters.account >>
 
@@ -184,28 +184,28 @@ workflows:
   #           - approve prod changes
   #         filters: *on-tag-main
 
-  # schedule weekly rotation and integration test:
-  #   jobs:
-  #     - do/schedule-pipeline:
-  #         name: weekly integration test and rotation
-  #         context: *context
-  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-  #         scheduled-pipeline-name: weekly-integration-test
-  #         scheduled-pipeline-description: |
-  #           Weekly, automated run of iam-credential-rotation and iam-profiles integration tests.
-  #         hours-of-day: "[1]"
-  #         days-of-week: "[\"SUN\"]"
-  #         filters: *on-tag-main
+  schedule weekly rotation and integration test:
+    jobs:
+      - do/schedule-pipeline:
+          name: weekly integration test and rotation
+          context: *context
+          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+          scheduled-pipeline-name: weekly-integration-test
+          scheduled-pipeline-description: |
+            Weekly, automated run of iam-credential-rotation and iam-profiles integration tests.
+          hours-of-day: "[1]"
+          days-of-week: "[\"SUN\"]"
+          filters: *on-tag-main
 
-  # weekly integration test:
-  #   when:
-  #     equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
-  #   jobs:
-  #     - recurring-integration-tests:
-  #         name: Nonprod Svc Acct rotation and Profiles test
-  #         context: *context
-  #         account: nonprod
-  #     - recurring-integration-tests:
-  #         name: Prod Svc Acct rotation and Profiles test
-  #         context: *context
-  #         account: prod
+  weekly integration test:
+    when:
+      equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+    jobs:
+      - recurring-integration-tests:
+          name: AWS integration test and Nonprod Svc Acct rotation
+          context: *context
+          account: nonprod
+      - recurring-integration-tests:
+          name: AWS integration test and Prod Svc Acct rotation
+          context: *context
+          account: prod
