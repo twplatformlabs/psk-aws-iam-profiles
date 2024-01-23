@@ -147,42 +147,46 @@ workflows:
             - approve nonprod changes
           filters: *on-push-main
 
-  # deploy roles to prod:
-  #   jobs:
-  #     - terraform/plan:
-  #         name: prod change plan
-  #         context: *context
-  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-  #         executor-image: *executor-image
-  #         workspace: prod
-  #         checkov-scan: true
-  #         before-plan:
-  #           - set-environment:
-  #               account: prod
-  #         filters: *on-tag-main
+  deploy roles to prod:
+    jobs:
+      - terraform/plan:
+          name: prod change plan
+          context: *context
+          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+          executor-image: *executor-image
+          workspace: prod
+          checkov-scan: true
+          before-plan:
+            - set-environment:
+                account: prod
+          filters: *on-tag-main
 
-  #     - approve prod changes:
-  #         type: approval
-  #         requires:
-  #           - prod change plan
-  #         filters: *on-tag-main
+      - approve prod changes:
+          type: approval
+          requires:
+            - prod change plan
+          filters: *on-tag-main
 
-  #     - terraform/apply:
-  #         name: apply prod changes
-  #         context: *context
-  #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
-  #         workspace: prod
-  #         before-apply:
-  #           - set-environment:
-  #               account: prod
-  #         after-apply:
-  #           - aws-integration-tests:
-  #               account: prod
-  #           - rotate-service-account-credentials:
-  #               account: prod
-  #         requires:
-  #           - approve prod changes
-  #         filters: *on-tag-main
+      - terraform/apply:
+          name: apply prod changes
+          context: *context
+          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+          workspace: prod
+          before-apply:
+            - set-environment:
+                account: prod
+          after-apply:
+            - aws-integration-tests:
+                account: prod
+            - rotate-service-account-credentials:
+                account: prod
+            - do/slack-bot:
+                message: Release psk-aws-iam-profiles
+                include-link: true
+                include-tag: true
+          requires:
+            - approve prod changes
+          filters: *on-tag-main
 
   schedule weekly rotation and integration test:
     jobs:
