@@ -100,9 +100,9 @@ workflows:
     jobs:
       - terraform/static-analysis:
           name: static code analysis
-          executor-image: *executor-image
           context: *context
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+          executor-image: *executor-image
           workspace: nonprod
           tflint-scan: true
           tflint-provider: aws
@@ -114,30 +114,23 @@ workflows:
                 env-file: op.nonprod.env
           filters: *on-push-main
 
-      # - terraform/static-analysis:
-      #     name: static code analysis
-      #     context: *context
-      #     shell: *shell
-      #     tflint-scan: true
-      #     tflint-provider: aws
-      #     trivy-scan: true
-      #     trivy-commandline-args: config . --exit-code 0
+      - terraform/plan:
+          name: nonprod change plan
+          context: *context
+          shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+          executor-image: *executor-image
+          workspace: nonprod
+          checkov-scan: true
+          before-terraform:
+            - set-environment:
+                account: nonprod
+          filters: *on-push-main
 
-      # - terraform/plan:
-      #     name: nonprod change plan
-      #     context: *context
-      #     shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-      #     workspace: nonprod
-      #     before-terraform:
-      #       - set-environment:
-      #           account: nonprod
-      #     filters: *on-push-main
-
-      # - approve nonprod changes:
-      #     type: approval
-      #     requires:
-      #       - nonprod change plan
-      #     filters: *on-push-main
+      - approve nonprod changes:
+          type: approval
+          requires:
+            - nonprod change plan
+          filters: *on-push-main
 
       # - terraform/apply:
       #     name: apply nonprod changes
