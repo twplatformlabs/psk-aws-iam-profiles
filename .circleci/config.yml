@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   #checkov:skip=CKV_CIRCLECIPIPELINES_3
-  terraform: twdps/terraform@2.0.2
+  terraform: twdps/terraform@2.0.3
   op: twdps/onepassword@2.0.6
   do: twdps/pipeline-events@3.2.1
 
@@ -132,25 +132,22 @@ workflows:
             - nonprod change plan
           filters: *on-push-main
 
-      # - terraform/apply:
-      #     name: apply nonprod changes
-      #     context: *context
-      #     shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-      #     workspace: nonprod
-      #     before-terraform:
-      #       - set-environment:
-      #           account: nonprod
-      #     after-terraform:
-      #       - aws-integration-tests:
-      #           account: nonprod
-      #       - rotate-service-account-credentials:
-      #           account: nonprod
-      #       - do/slack-webhook:
-      #           message: psk-aws-iam-profile nonprod deployment
-      #           webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
-      #     requires:
-      #       - approve nonprod changes
-      #     filters: *on-push-main
+      - terraform/apply:
+          name: apply nonprod changes
+          context: *context
+          shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+          workspace: nonprod
+          before-terraform:
+            - set-environment:
+                account: nonprod
+          after-terraform:
+            - aws-integration-tests:
+                account: nonprod
+            - rotate-service-account-credentials:
+                account: nonprod
+          requires:
+            - approve nonprod changes
+          filters: *on-push-main
 
   # deploy roles to prod:
   #   jobs:
