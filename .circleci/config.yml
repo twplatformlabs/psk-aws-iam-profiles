@@ -121,7 +121,7 @@ workflows:
           executor-image: *executor-image
           workspace: nonprod
           checkov-scan: true
-          before-terraform:
+          before-plan:
             - set-environment:
                 account: nonprod
           filters: *on-push-main
