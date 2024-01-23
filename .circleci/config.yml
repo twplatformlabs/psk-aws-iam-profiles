@@ -137,10 +137,10 @@ workflows:
           context: *context
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           workspace: nonprod
-          before-terraform:
+          before-apply:
             - set-environment:
                 account: nonprod
-          after-terraform:
+          after-apply:
             - aws-integration-tests:
                 account: nonprod
             - rotate-service-account-credentials:
