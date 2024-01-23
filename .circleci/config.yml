@@ -53,10 +53,7 @@ commands:
     steps:
       - run:
           name: InSpec tests of managed AWS resources
-          environment:
-            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-          command: bash scripts/run_inspec_integration_tests.sh << parameters.account >>
+          command: bash scripts/run_awspec_integration_tests.sh << parameters.account >>
 
   rotate-service-account-credentials:
     parameters:
@@ -66,9 +63,6 @@ commands:
     steps:
       - run:
           name: create or rotate the service account credentials
-          environment:
-            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
           command: bash scripts/rotate_svc_acct_credentials.sh << parameters.account >>
 
 jobs:

@@ -11,9 +11,9 @@ export AWS_SESSION_TOKEN=$(cat credentials | jq -r ".Credentials.SessionToken")
 export AWS_DEFAULT_REGION=$(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_region)
 
 # test roles
-inspec exec test/iam-roles -t aws://
+rspec test/psk_aws_iam_roles_spec.rb --format documentation
 
 # if this is the state account then test the profiles
 if [[ ${ENVIRONMENT} == "nonprod" ]]; then
-  inspec exec test/iam-profiles -t aws://
+  rspec test/state-account/psk_aws_iam_profiles_spec.rb --format documentation
 fi
