@@ -181,6 +181,7 @@ workflows:
             - rotate-service-account-credentials:
                 account: prod
             - do/slack-bot:
+                channel: lab-events
                 message: Release psk-aws-iam-profiles
                 include-link: true
                 include-tag: true
