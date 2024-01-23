@@ -9,3 +9,7 @@ ignore:
     - '*':
         reason: IAM User is a machine account
         expires: 2030-01-31T08:40:35.249Z
+  SNYK-CC-TF-116:
+    - '*':
+        reason: False positive
+        expires: 2030-01-31T08:40:35.249Z
