@@ -11,7 +11,7 @@ orbs:
 
 globals:
   - &context empc-lab
-  - &executor-image twdps/circleci-infra-aws:alpine-5.0.0
+  - &executor-image twdps/circleci-infra-aws:alpine-5.1.0
 
 on-push-main: &on-push-main
   branches:
