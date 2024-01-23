@@ -109,6 +109,9 @@ workflows:
           snyk-scan: true
           snyk-organization: twdps
           snyk-additional-args: --report --target-name=orb-terraform-ci
+          before-static-analysis:
+            - op/env:
+                env-file: op.nonprod.env
           filters: *on-push-main
 
       # - terraform/static-analysis:
