@@ -59,13 +59,19 @@ Presently, a scheduled pipeline is configured to run once per week. This pipelin
 * terraform validate
 * [tflint](https://github.com/terraform-linters/tflint)
 * [checkov](https://github.com/bridgecrewio/checkov)
-* [trivy](https://github.com/aquasecurity/trivy)
 
 ### Tools used in this repo or by the pipeline
 
-* pre-commit
+* [pre-commit](https://pre-commit.com)
 * Common [pre-commit-hooks](https://github.com/pre-commit/pre-commit-hooks)
 * [pre-commit-terraform](https://github.com/antonbabenko/pre-commit-terraform)
 * [awslabs/git-secrets](https://github.com/awslabs/git-secrets)
-*
-*
+* Circleci Executor: [twdps/circleci-infra-aws](https://github.com/ThoughtWorks-DPS/circleci-infra-aws)
+* [Terraform Cloud](https://app.terraform.io/) for backend state
+* [1password](https://1password.com) for secrets
+* [awspec(https://github.com/k1LoW/awspec)]
+* [iam-credential-rotation](https://github.com/ThoughtWorks-DPS/iam-credential-rotation)
+* [orbs](https://circleci.com/developer/orbs): twdps/terraform, twdps/onepassword, twdps/pipeline-events
+* [tflint](https://github.com/terraform-linters/tflint)
+* [trivy](https://github.com/aquasecurity/trivy)
+* [checkov](https://github.com/bridgecrewio/checkov)

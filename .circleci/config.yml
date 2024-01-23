@@ -106,9 +106,7 @@ workflows:
           workspace: nonprod
           tflint-scan: true
           tflint-provider: aws
-          snyk-scan: true
-          snyk-organization: twdps
-          snyk-additional-args: --report --target-name=orb-terraform-ci
+          trivy-scan: true
           before-static-analysis:
             - op/env:
                 env-file: op.nonprod.env
@@ -155,8 +153,10 @@ workflows:
   #         name: prod change plan
   #         context: *context
   #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+  #         executor-image: *executor-image
   #         workspace: prod
-  #         before-terraform:
+  #         checkov-scan: true
+  #         before-plan:
   #           - set-environment:
   #               account: prod
   #         filters: *on-tag-main
@@ -172,17 +172,14 @@ workflows:
   #         context: *context
   #         shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
   #         workspace: prod
-  #         before-terraform:
+  #         before-apply:
   #           - set-environment:
   #               account: prod
-  #         after-terraform:
+  #         after-apply:
   #           - aws-integration-tests:
   #               account: prod
-  #           - do/slack-webhook:
-  #               message: psk-aws-iam-profile prod release
-  #               webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
-  #           - do/release-notes:
-  #               on-tag: true
+  #           - rotate-service-account-credentials:
+  #               account: prod
   #         requires:
   #           - approve prod changes
   #         filters: *on-tag-main
