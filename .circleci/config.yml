@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   #checkov:skip=CKV_CIRCLECIPIPELINES_3
-  terraform: twdps/terraform@2.0.1
+  terraform: twdps/terraform@2.0.2
   op: twdps/onepassword@2.0.6
   do: twdps/pipeline-events@3.2.1
 
