@@ -116,7 +116,6 @@ workflows:
       - terraform/static-analysis:
           name: static code analysis
           context: *context
-          # shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           executor-image: *executor-image
           workspace: nonprod
           tflint-scan: true
@@ -130,7 +129,6 @@ workflows:
       - terraform/plan:
           name: nonprod change plan
           context: *context
-          # shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           executor-image: *executor-image
           workspace: nonprod
           checkov-scan: true
@@ -149,7 +147,6 @@ workflows:
       - terraform/apply:
           name: apply nonprod changes
           context: *context
-          # shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           workspace: nonprod
           before-apply:
             - set-environment:
@@ -168,7 +165,6 @@ workflows:
       - terraform/plan:
           name: prod change plan
           context: *context
-          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
           executor-image: *executor-image
           workspace: prod
           checkov-scan: true
@@ -186,7 +182,6 @@ workflows:
       - terraform/apply:
           name: apply prod changes
           context: *context
-          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
           workspace: prod
           before-apply:
             - set-environment:
@@ -208,7 +203,6 @@ workflows:
       - do/schedule-pipeline:
           name: weekly integration test and rotation
           context: *context
-          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
           scheduled-pipeline-name: weekly-integration-test
           scheduled-pipeline-description: |
             Weekly, automated run of iam-credential-rotation and iam-profiles integration tests.
