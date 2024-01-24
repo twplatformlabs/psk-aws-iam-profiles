@@ -5,8 +5,6 @@ machine_credentials.*
 *.auto.tfvars.json
 .ruby-version
 .python-version
-Pipfile
-Pipfile.lock
 credentials
 .DS_Store
 source.env
