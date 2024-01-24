@@ -137,13 +137,12 @@ workflows:
           before-plan:
             - set-environment:
                 account: nonprod
-          requires:
-            - static code analysis
           filters: *on-push-main
 
       - approve nonprod changes:
           type: approval
           requires:
+            - static code analysis
             - nonprod change plan
           filters: *on-push-main
 
