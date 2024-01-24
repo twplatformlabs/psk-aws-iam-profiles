@@ -5,7 +5,7 @@ orbs:
   #checkov:skip=CKV_CIRCLECIPIPELINES_3
   terraform: twdps/terraform@2.0.4
   op: twdps/onepassword@2.0.6
-  do: twdps/pipeline-events@dev:alpha
+  do: twdps/pipeline-events@3.2.2
 
 # ============================================================ pipeline globals
 
