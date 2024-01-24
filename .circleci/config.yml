@@ -108,60 +108,60 @@ jobs:
 
 workflows:
 
-  # deploy psk profiles and roles to nonprod:
-  #   when:
-  #     not:
-  #       equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
-  #   jobs:
-  #     - terraform/static-analysis:
-  #         name: static code analysis
-  #         context: *context
-  #         shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-  #         executor-image: *executor-image
-  #         workspace: nonprod
-  #         tflint-scan: true
-  #         tflint-provider: aws
-  #         trivy-scan: true
-  #         before-static-analysis:
-  #           - op/env:
-  #               env-file: op.nonprod.env
-  #         filters: *on-push-main
+  deploy psk profiles and roles to nonprod:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+    jobs:
+      - terraform/static-analysis:
+          name: static code analysis
+          context: *context
+          # shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+          executor-image: *executor-image
+          workspace: nonprod
+          tflint-scan: true
+          tflint-provider: aws
+          trivy-scan: true
+          before-static-analysis:
+            - op/env:
+                env-file: op.nonprod.env
+          filters: *on-push-main
 
-  #     - terraform/plan:
-  #         name: nonprod change plan
-  #         context: *context
-  #         shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-  #         executor-image: *executor-image
-  #         workspace: nonprod
-  #         checkov-scan: true
-  #         before-plan:
-  #           - set-environment:
-  #               account: nonprod
-  #         filters: *on-push-main
+      - terraform/plan:
+          name: nonprod change plan
+          context: *context
+          # shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+          executor-image: *executor-image
+          workspace: nonprod
+          checkov-scan: true
+          before-plan:
+            - set-environment:
+                account: nonprod
+          filters: *on-push-main
 
-  #     - approve nonprod changes:
-  #         type: approval
-  #         requires:
-  #           - static code analysis
-  #           - nonprod change plan
-  #         filters: *on-push-main
+      - approve nonprod changes:
+          type: approval
+          requires:
+            - static code analysis
+            - nonprod change plan
+          filters: *on-push-main
 
-  #     - terraform/apply:
-  #         name: apply nonprod changes
-  #         context: *context
-  #         shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-  #         workspace: nonprod
-  #         before-apply:
-  #           - set-environment:
-  #               account: nonprod
-  #         after-apply:
-  #           - aws-integration-tests:
-  #               account: nonprod
-  #           - rotate-service-account-credentials:
-  #               account: nonprod
-  #         requires:
-  #           - approve nonprod changes
-  #         filters: *on-push-main
+      - terraform/apply:
+          name: apply nonprod changes
+          context: *context
+          # shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
+          workspace: nonprod
+          before-apply:
+            - set-environment:
+                account: nonprod
+          after-apply:
+            - aws-integration-tests:
+                account: nonprod
+            - rotate-service-account-credentials:
+                account: nonprod
+          requires:
+            - approve nonprod changes
+          filters: *on-push-main
 
   deploy roles to prod:
     jobs:
@@ -214,7 +214,10 @@ workflows:
             Weekly, automated run of iam-credential-rotation and iam-profiles integration tests.
           hours-of-day: "[1]"
           days-of-week: "[\"SUN\"]"
-          filters: *on-push-main
+          before-schedule:
+            - op/env:
+                env-file: op.prod.env
+          filters: *on-tag-main
 
   weekly integration test:
     when:
