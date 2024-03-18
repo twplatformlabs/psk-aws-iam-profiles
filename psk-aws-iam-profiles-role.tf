@@ -6,7 +6,7 @@
 module "PSKIamProfilesRole" {
   source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   #checkov:skip=CKV_TF_1
-  version     = "5.33.0"
+  version     = "5.37.1"
   create_role = true
 
   role_name                         = "PSKIamProfilesRole"
