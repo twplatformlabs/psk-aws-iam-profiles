@@ -1,3 +1,4 @@
+
 terraform {
   # pin major.minor versions
   required_version = "~> 1.7"

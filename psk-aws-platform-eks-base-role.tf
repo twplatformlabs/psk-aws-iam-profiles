@@ -4,8 +4,7 @@
 # manages platform cluster aws-managed aspects
 
 module "PSKPlatformEKSBaseRole" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  #checkov:skip=CKV_TF_1
+  source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   version     = "5.37.1"
   create_role = true
 
@@ -19,7 +18,6 @@ module "PSKPlatformEKSBaseRole" {
 }
 
 # role permissions
-#tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_policy" "PSKPlatformEKSBaseRolePolicy" {
   name = "PSKPlatformEKSBaseRolePolicy"
   path = "/PSKPolicies/"

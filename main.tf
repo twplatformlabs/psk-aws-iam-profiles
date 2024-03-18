@@ -8,8 +8,7 @@
 # will create and store the service account credentials in the secrets store
 
 module "PSKNonprodServiceAccount" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-user"
-  #checkov:skip=CKV_TF_1
+  source  = "terraform-aws-modules/iam/aws//modules/iam-user"
   version = "5.37.1"
 
   create_user                   = var.is_state_account
@@ -22,8 +21,7 @@ module "PSKNonprodServiceAccount" {
 }
 
 module "PSKNonprodServiceAccountGroup" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
-  #checkov:skip=CKV_TF_1
+  source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
   version = "5.37.1"
 
   count           = var.is_state_account ? 1 : 0
@@ -42,8 +40,7 @@ module "PSKNonprodServiceAccountGroup" {
 # will create and store the service account credentials in the secrets store
 
 module "PSKProdServiceAccount" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-user"
-  #checkov:skip=CKV_TF_1
+  source  = "terraform-aws-modules/iam/aws//modules/iam-user"
   version = "5.37.1"
 
   create_user                   = var.is_state_account
@@ -56,8 +53,7 @@ module "PSKProdServiceAccount" {
 }
 
 module "PSKProdServiceAccountGroup" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
-  #checkov:skip=CKV_TF_1
+  source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
   version = "5.37.1"
 
   count           = var.is_state_account ? 1 : 0
