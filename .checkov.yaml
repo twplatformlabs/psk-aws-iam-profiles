@@ -10,6 +10,7 @@ mask: []
 secrets-scan-file-type: []
 summary-position: top
 skip-check:
+  - CKV_TF_1     # cost to mitigate exceeds likelihood of risk
   - CKV2_AWS_14  # only machine accounts are being created by the pipeline
   - CKV2_AWS_21
   - CKV2_AWS_22
