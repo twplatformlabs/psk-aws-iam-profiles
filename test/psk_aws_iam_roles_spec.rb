@@ -3,19 +3,68 @@ require 'awspec'
 describe iam_role('PSKIamProfilesRole') do
   it { should exist }
   it { should have_iam_policy('PSKIamProfilesRolePolicy') }
-end
 
-describe iam_role('PSKPlatformWANRole') do
-  it { should exist }
-  it { should have_iam_policy('PSKPlatformWANRolePolicy') }
-end
-
-describe iam_role('PSKPlatformVPCRole') do
-  it { should exist }
-  it { should have_iam_policy('PSKPlatformVPCRolePolicy') }
-end
-
-describe iam_role('PSKPlatformEKSBaseRole') do
-  it { should exist }
-  it { should have_iam_policy('PSKPlatformEKSBaseRolePolicy') }
+  it { should be_allowed_action('iam:AddUserToGroup') }
+  it { should be_allowed_action('iam:AttachGroupPolicy') }
+  it { should be_allowed_action('iam:AttachRolePolicy') }
+  it { should be_allowed_action('iam:AttachUserPolicy') }
+  it { should be_allowed_action('iam:CreateAccessKey') }
+  it { should be_allowed_action('iam:CreateAccountAlias') }
+  it { should be_allowed_action('iam:CreateGroup') }
+  it { should be_allowed_action('iam:CreatePolicy') }
+  it { should be_allowed_action('iam:CreatePolicyVersion') }
+  it { should be_allowed_action('iam:CreateRole') }
+  it { should be_allowed_action('iam:CreateUser') }
+  it { should be_allowed_action('iam:DeleteGroup') }
+  it { should be_allowed_action('iam:DeleteGroupPolicy') }
+  it { should be_allowed_action('iam:DeletePolicy') }
+  it { should be_allowed_action('iam:DeletePolicyVersion') }
+  it { should be_allowed_action('iam:DeleteRole') }
+  it { should be_allowed_action('iam:DeleteRolePolicy') }
+  it { should be_allowed_action('iam:DeleteSSHPublicKey') }
+  it { should be_allowed_action('iam:DeleteUser') }
+  it { should be_allowed_action('iam:DeleteUserPolicy') }
+  it { should be_allowed_action('iam:DetachGroupPolicy') }
+  it { should be_allowed_action('iam:DetachRolePolicy') }
+  it { should be_allowed_action('iam:DetachUserPolicy') }
+  it { should be_allowed_action('iam:GetContextKeysForCustomPolicy') }
+  it { should be_allowed_action('iam:GetContextKeysForPrincipalPolicy') }
+  it { should be_allowed_action('iam:GetGroup') }
+  it { should be_allowed_action('iam:GetGroupPolicy') }
+  it { should be_allowed_action('iam:GetPolicy') }
+  it { should be_allowed_action('iam:GetPolicyVersion') }
+  it { should be_allowed_action('iam:GetRole') }
+  it { should be_allowed_action('iam:GetRolePolicy') }
+  it { should be_allowed_action('iam:GetUser') }
+  it { should be_allowed_action('iam:GetUserPolicy') }
+  it { should be_allowed_action('iam:ListAccountAliases') }
+  it { should be_allowed_action('iam:ListAttachedGroupPolicies') }
+  it { should be_allowed_action('iam:ListAttachedRolePolicies') }
+  it { should be_allowed_action('iam:ListAttachedUserPolicies') }
+  it { should be_allowed_action('iam:ListEntitiesForPolicy') }
+  it { should be_allowed_action('iam:ListGroupPolicies') }
+  it { should be_allowed_action('iam:ListGroups') }
+  it { should be_allowed_action('iam:ListGroupsForUser') }
+  it { should be_allowed_action('iam:ListInstanceProfiles') }
+  it { should be_allowed_action('iam:ListInstanceProfilesForRole') }
+  it { should be_allowed_action('iam:ListPolicies') }
+  it { should be_allowed_action('iam:ListPolicyVersions') }
+  it { should be_allowed_action('iam:ListRolePolicies') }
+  it { should be_allowed_action('iam:ListRoles') }
+  it { should be_allowed_action('iam:ListUserPolicies') }
+  it { should be_allowed_action('iam:ListUsers') }
+  it { should be_allowed_action('iam:PutGroupPolicy') }
+  it { should be_allowed_action('iam:PutRolePolicy') }
+  it { should be_allowed_action('iam:PutUserPolicy') }
+  it { should be_allowed_action('iam:RemoveUserFromGroup') }
+  it { should be_allowed_action('iam:SetDefaultPolicyVersion') }
+  it { should be_allowed_action('iam:SimulateCustomPolicy') }
+  it { should be_allowed_action('iam:SimulatePrincipalPolicy') }
+  it { should be_allowed_action('iam:UpdateAssumeRolePolicy') }
+  it { should be_allowed_action('iam:UpdateGroup') }
+  it { should be_allowed_action('iam:UpdateLoginProfile') }
+  it { should be_allowed_action('iam:UpdateUser') }
+  it { should be_allowed_action('iam:TagPolicy') }
+  it { should be_allowed_action('iam:TagRole') }
+  it { should be_allowed_action('iam:TagUser') }
 end

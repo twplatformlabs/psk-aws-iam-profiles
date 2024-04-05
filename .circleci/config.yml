@@ -2,12 +2,9 @@
 version: 2.1
 
 orbs:
-  #checkov:skip=CKV_CIRCLECIPIPELINES_3
-  terraform: twdps/terraform@2.0.4
+  terraform: twdps/terraform@2.1.0
   op: twdps/onepassword@2.0.6
-  do: twdps/pipeline-events@3.2.3
-
-# ============================================================ pipeline globals
+  do: twdps/pipeline-events@dev:alpha
 
 globals:
   - &context empc-lab
@@ -38,9 +35,10 @@ commands:
     steps:
       - op/env:
           env-file: op.<< parameters.account >>.env
-      - run:
-          name: set ~/.terraformrc
-          command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
+      - terraform/terraformrc
+      # - run:
+      #     name: set ~/.terraformrc
+      #     command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
       - run:
           name: set << parameters.account >> environment variables
           command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
@@ -52,17 +50,17 @@ commands:
         type: string
     steps:
       - run:
-          name: InSpec tests of managed AWS resources
+          name: Awspec tests of pipeline managed AWS resources
           command: bash scripts/run_awspec_integration_tests.sh << parameters.account >>
 
   rotate-service-account-credentials:
     parameters:
       account:
-        description: for EMPC Labs, this is either nonprod or prod
+        description: Rotate service account credentials
         type: string
     steps:
       - run:
-          name: create or rotate the service account credentials
+          name: create or rotate all service account credentials
           command: bash scripts/rotate_svc_acct_credentials.sh << parameters.account >>
 
 jobs:
