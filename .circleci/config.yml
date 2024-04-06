@@ -4,8 +4,7 @@ version: 2.1
 orbs:
   terraform: twdps/terraform@2.1.0
   op: twdps/onepassword@2.0.6
-  #checkov:skip=CKV_CIRCLECIPIPELINES_3:Ensure mutable development orbs are not used.
-  do: twdps/pipeline-events@dev:alpha
+  do: twdps/pipeline-events@3.3.0
 
 globals:
   - &context empc-lab
@@ -37,18 +36,15 @@ commands:
       - op/env:
           env-file: op.<< parameters.account >>.env
       - terraform/terraformrc
-      # - run:
-      #     name: set ~/.terraformrc
-      #     command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
       - run:
-          name: set << parameters.account >> environment variables
+          name: set << parameters.account >> terraform workspace environment variables
           command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
       - do/bash-functions
 
   aws-integration-tests:
     parameters:
       account:
-        description: for EMPC Labs this is either nonprod or prod
+        description: Workspace environment to test
         type: string
     steps:
       - run:
@@ -74,7 +70,6 @@ jobs:
       - image: *executor-image
     environment:
       TF_WORKSPACE: << parameters.account >>
-    shell: op run --env-file op.<< parameters.account >>.env -- /bin/sh -eo pipefail
     parameters:
       account:
         description: nonprod or production account configuration
@@ -93,7 +88,6 @@ jobs:
       - image: *executor-image
     environment:
       TF_WORKSPACE: nonprod
-    shell: op run --env-file op.nonprod.env -- /bin/sh -eo pipefail
     steps:
       - checkout
       - setup_remote_docker
