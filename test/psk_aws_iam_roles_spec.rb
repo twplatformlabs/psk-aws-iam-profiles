@@ -67,4 +67,12 @@ describe iam_role('PSKIamProfilesRole') do
   it { should be_allowed_action('iam:TagPolicy') }
   it { should be_allowed_action('iam:TagRole') }
   it { should be_allowed_action('iam:TagUser') }
+  it { should be_allowed_action('iam:ChangePassword') }
+  it { should be_allowed_action('iam:CreateLoginProfile') }
+  it { should be_allowed_action('iam:DeleteAccessKey') }
+  it { should be_allowed_action('iam:DeleteLoginProfile') }
+  it { should be_allowed_action('iam:GetAccessKeyLastUsed') }
+  it { should be_allowed_action('iam:GetLoginProfile') }
+  it { should be_allowed_action('iam:ListAccessKeys') }
+  it { should be_allowed_action('iam:UpdateAccessKey') }
 end

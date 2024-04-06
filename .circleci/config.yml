@@ -4,6 +4,7 @@ version: 2.1
 orbs:
   terraform: twdps/terraform@2.1.0
   op: twdps/onepassword@2.0.6
+  #checkov:skip=CKV_CIRCLECIPIPELINES_3:Ensure mutable development orbs are not used.
   do: twdps/pipeline-events@dev:alpha
 
 globals:

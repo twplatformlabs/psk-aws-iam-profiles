@@ -90,6 +90,14 @@ resource "aws_iam_policy" "PSKIamProfilesRolePolicy" {
           "iam:TagPolicy",
           "iam:TagRole",
           "iam:TagUser",
+          "iam:ChangePassword",
+          "iam:CreateLoginProfile",
+          "iam:DeleteAccessKey",
+          "iam:DeleteLoginProfile",
+          "iam:GetAccessKeyLastUsed",
+          "iam:GetLoginProfile",
+          "iam:ListAccessKeys",
+          "iam:UpdateAccessKey"
         ]
         "Effect" : "Allow"
         "Resource" : "*"
