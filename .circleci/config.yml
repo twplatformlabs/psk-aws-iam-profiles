@@ -43,6 +43,7 @@ commands:
       - run:
           name: set << parameters.account >> environment variables
           command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
+      - do/bash-functions
 
   aws-integration-tests:
     parameters:
