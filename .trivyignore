@@ -1,5 +1,11 @@
 # Ignore selected warnings from scanning the official AWS terraform modules
 #
+# ignore MFA warning for services accounts
+AVD-AWS-0123
+# ignore password policy warnings. Serviec accounts are not allowed console access.
+AVD-AWS-0063
+AVD-AWS-0056
+AVD-AWS-0059
 # ignore wildcard policy statement warnings
 AVD-AWS-0057
 # ignore iam:PassRole warning

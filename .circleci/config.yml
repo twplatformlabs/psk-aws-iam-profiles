@@ -100,7 +100,7 @@ jobs:
 
 workflows:
 
-  deploy psk profiles and roles to nonprod:
+  deploy service accounts and roles to nonprod:
     when:
       not:
         equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
