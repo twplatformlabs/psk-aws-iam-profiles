@@ -10,13 +10,14 @@ AVD-AWS-0059
 AVD-AWS-0057
 # ignore iam:PassRole warning
 AVD-AWS-0342
-# ignore VPC configuration warning. Not using module VPC features
+# ignore VPC configuration warning. Not using module VPC features.
 AVD-AWS-0178
 AVD-AWS-0105
 AVD-AWS-0104
 AVD-AWS-0102
-# ignore EKS configuration warning. Not using module EKS features
+# ignore EKS configuration warning. Not using module EKS features.
 AVD-AWS-0041
 AVD-AWS-0040
 AVD-AWS-0039
 AVD-AWS-0038
+AVD-AWS-0130
