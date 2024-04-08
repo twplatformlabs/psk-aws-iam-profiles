@@ -2,15 +2,18 @@
 set -eo pipefail
 
 export ENVIRONMENT=$1
-export AWS_ACCOUNT_ID=$(jq -r .aws_account_id < ${ENVIRONMENT}.auto.tfvars.json)
-export AWS_ASSUME_ROLE=$(jq -r .aws_assume_role < ${ENVIRONMENT}.auto.tfvars.json)
+export AWS_DEFAULT_REGION=$(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_region)
 
-aws sts assume-role --output json --role-arn arn:aws:iam::${AWS_ACCOUNT_ID}:role/${AWS_ASSUME_ROLE} --role-session-name psk-aws-iam-profiles > credentials
+awsAssumeRole $(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_account_id) $(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_assume_role)
 
-export AWS_ACCESS_KEY_ID=$(jq -r ".Credentials.AccessKeyId" < credentials)
-export AWS_SECRET_ACCESS_KEY=$(jq -r ".Credentials.SecretAccessKey" < credentials)
-export AWS_SESSION_TOKEN=$(jq -r ".Credentials.SessionToken" < credentials)
-export AWS_DEFAULT_REGION=$(jq -r .aws_region < ${ENVIRONMENT}.auto.tfvars.json)
+# export AWS_ACCOUNT_ID=$(jq -r .aws_account_id < ${ENVIRONMENT}.auto.tfvars.json)
+# export AWS_ASSUME_ROLE=$(jq -r .aws_assume_role < ${ENVIRONMENT}.auto.tfvars.json)
+
+# aws sts assume-role --output json --role-arn arn:aws:iam::${AWS_ACCOUNT_ID}:role/${AWS_ASSUME_ROLE} --role-session-name psk-aws-iam-profiles > credentials
+
+# export AWS_ACCESS_KEY_ID=$(jq -r ".Credentials.AccessKeyId" < credentials)
+# export AWS_SECRET_ACCESS_KEY=$(jq -r ".Credentials.SecretAccessKey" < credentials)
+# export AWS_SESSION_TOKEN=$(jq -r ".Credentials.SessionToken" < credentials)
 
 # Rotate AWS IAM User access credentials. https://pypi.org/project/iam-credential-rotation/
 echo "rotate service account credentials"
@@ -25,7 +28,7 @@ PSKNonprodSecret=$(echo $PSKNonprodServiceAccountCredentials | jq .SecretAccessK
 op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-access-key-id=$PSKNonprodAccessKey --vault empc-lab >/dev/null
 op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-secret-access-key=$PSKNonprodSecret --vault empc-lab >/dev/null
 
-# Write new prod credentials to 1password
+# Write new prod credentials to 1password vault
 echo "write PSKProdrodServiceAccount credentials"
 PSKProdServiceAccountCredentials=$(jq .PSKProdServiceAccount <  machine_credentials.json)
 PSKProdAccessKey=$(echo $PSKProdServiceAccountCredentials | jq .AccessKeyId | sed 's/"//g' | tr -d \\n)
