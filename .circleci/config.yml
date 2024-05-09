@@ -193,9 +193,11 @@ workflows:
 
       - do/release:
           name: generate release notes
-          shell: *shell
           context: *context
           on-tag: true
+          before-release:
+            - op/env:
+                env-file: op.prod.env
           requires:
             - apply prod changes
           filters: *on-tag-main
