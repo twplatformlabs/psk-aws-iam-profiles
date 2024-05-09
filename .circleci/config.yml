@@ -175,6 +175,7 @@ workflows:
           name: apply prod changes
           context: *context
           workspace: prod
+          gren: true
           before-apply:
             - set-environment:
                 account: prod
@@ -188,6 +189,15 @@ workflows:
                 include-tag: true
           requires:
             - approve prod changes
+          filters: *on-tag-main
+
+      - do/release:
+          name: generate release notes
+          shell: *shell
+          context: *context
+          on-tag: true
+          requires:
+            - apply prod changes
           filters: *on-tag-main
 
   schedule weekly rotation and integration test:
