@@ -37,7 +37,7 @@ commands:
           env-file: op.<< parameters.account >>.env
       - terraform/terraformrc
       - op/tpl:
-          tpl-file: environments/<< parameters.account >>.auto.tfvars.json.tpl
+          tpl-file: environments/<< parameters.account >>.auto.tfvars.json
       # - run:
       #     name: set << parameters.account >> terraform workspace environment variables
       #     command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
