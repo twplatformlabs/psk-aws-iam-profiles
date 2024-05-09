@@ -2,13 +2,13 @@
 version: 2.1
 
 orbs:
-  terraform: twdps/terraform@2.1.0
-  op: twdps/onepassword@2.0.6
-  do: twdps/pipeline-events@3.3.0
+  terraform: twdps/terraform@3.0.0
+  op: twdps/onepassword@3.0.0
+  do: twdps/pipeline-events@4.0.0
 
 globals:
   - &context empc-lab
-  - &executor-image twdps/circleci-infra-aws:alpine-5.1.0
+  - &executor-image twdps/circleci-infra-aws:alpine-7.0.0
 
 on-push-main: &on-push-main
   branches:
@@ -36,9 +36,11 @@ commands:
       - op/env:
           env-file: op.<< parameters.account >>.env
       - terraform/terraformrc
-      - run:
-          name: set << parameters.account >> terraform workspace environment variables
-          command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
+      - op/tpl:
+          tpl-file: environments/<< parameters.account >>.auto.tfvars.json.tpl
+      # - run:
+      #     name: set << parameters.account >> terraform workspace environment variables
+      #     command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
       - do/bash-functions
 
   aws-integration-tests:
@@ -210,11 +212,11 @@ workflows:
       equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - recurring-integration-tests:
-          name: AWS integration test and Nonprod Svc Acct rotation
+          name: Nonprod AWS integration test
           context: *context
           account: nonprod
       - recurring-integration-tests:
-          name: AWS integration test and Prod Svc Acct rotation
+          name: Prod AWS integration test
           context: *context
           account: prod
       - rotate-credentials:
