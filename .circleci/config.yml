@@ -175,7 +175,6 @@ workflows:
           name: apply prod changes
           context: *context
           workspace: prod
-          gren: true
           before-apply:
             - set-environment:
                 account: prod
