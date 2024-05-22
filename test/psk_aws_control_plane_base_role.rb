@@ -2,7 +2,7 @@ require 'awspec'
 
 describe iam_role('PSKControlPlaneBaseRole') do
   it { should exist }
-  it { should have_iam_policy('PSKPlatformEKSBaseRolePolicy') }
+  it { should have_iam_policy('PSKControlPlaneBaseRolePolicy') }
 
   it { should be_allowed_action('route53:AssociateVPCWithHostedZone') }
   it { should be_allowed_action('route53:ChangeResourceRecordSets') }
