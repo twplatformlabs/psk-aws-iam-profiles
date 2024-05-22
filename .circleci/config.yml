@@ -4,11 +4,11 @@ version: 2.1
 orbs:
   terraform: twdps/terraform@3.0.0
   op: twdps/onepassword@3.0.0
-  do: twdps/pipeline-events@4.0.0
+  do: twdps/pipeline-events@4.1.0
 
 globals:
   - &context empc-lab
-  - &executor-image twdps/circleci-infra-aws:alpine-7.0.0
+  - &executor-image twdps/circleci-infra-aws:alpine-7.2.1
 
 on-push-main: &on-push-main
   branches:
