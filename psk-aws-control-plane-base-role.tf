@@ -1,6 +1,6 @@
-# PSKPlatformEKSBaseRole
+# PSKControlPlaneBaseRole
 #
-# Used by: psk-aws-platform-eks-base pipeline
+# Used by: psk-aws-control-plane-base pipeline
 # manages platform cluster aws-managed aspects
 
 module "PSKControlPlaneBaseRole" {
