@@ -2,10 +2,12 @@
 source bash-functions.sh
 set -eo pipefail
 
-export ENVIRONMENT=$1
-export AWS_DEFAULT_REGION=$(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_region)
+export environment=$1
+export aws_account_id=$(jq -er .aws_account_id "$environment".auto.tfvars.json)
+export aws_assume_role=$(jq -er .aws_assume_role "$environment".auto.tfvars.json)
+export AWS_DEFAULT_REGION=$(jq -er .aws_region "$environment".auto.tfvars.json)
 
-awsAssumeRole $(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_account_id) $(cat ${ENVIRONMENT}.auto.tfvars.json | jq -r .aws_assume_role)
+awsAssumeRole "${aws_assume_role}" "${aws_account_id}"
 
 # Rotate AWS IAM User access credentials. https://pypi.org/project/iam-credential-rotation/
 echo "rotate service account credentials"
@@ -13,7 +15,7 @@ iam-credential-rotation PSKServiceAccounts > machine_credentials.json
 
 # Write new nonprod credentials to 1password
 echo "write PSKNonprodServiceAccount credentials"
-PSKNonprodServiceAccountCredentials=$(jq .PSKNonprodServiceAccount < machine_credentials.json)
+PSKNonprodServiceAccountCredentials=$(jq -er .PSKNonprodServiceAccount machine_credentials.json)
 PSKNonprodAccessKey=$(echo $PSKNonprodServiceAccountCredentials | jq .AccessKeyId | sed 's/"//g' | tr -d \\n)
 PSKNonprodSecret=$(echo $PSKNonprodServiceAccountCredentials | jq .SecretAccessKey | sed 's/"//g' | tr -d \\n)
 
@@ -22,7 +24,7 @@ op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-secret-access-key=$PSKNonp
 
 # Write new prod credentials to 1password vault
 echo "write PSKProdrodServiceAccount credentials"
-PSKProdServiceAccountCredentials=$(jq .PSKProdServiceAccount <  machine_credentials.json)
+PSKProdServiceAccountCredentials=$(jq -er .PSKProdServiceAccount machine_credentials.json)
 PSKProdAccessKey=$(echo $PSKProdServiceAccountCredentials | jq .AccessKeyId | sed 's/"//g' | tr -d \\n)
 PSKProdSecret=$(echo $PSKProdServiceAccountCredentials | jq .SecretAccessKey | sed 's/"//g' | tr -d \\n)
 
