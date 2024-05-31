@@ -7,7 +7,7 @@ export aws_account_id=$(jq -er .aws_account_id "$environment".auto.tfvars.json)
 export aws_assume_role=$(jq -er .aws_assume_role "$environment".auto.tfvars.json)
 export AWS_DEFAULT_REGION=$(jq -er .aws_region "$environment".auto.tfvars.json)
 
-awsAssumeRole "${aws_assume_role}" "${aws_account_id}"
+awsAssumeRole "${aws_account_id}" "${aws_assume_role}"
 
 # Rotate AWS IAM User access credentials. https://pypi.org/project/iam-credential-rotation/
 echo "rotate service account credentials"
