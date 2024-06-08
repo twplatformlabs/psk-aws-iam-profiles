@@ -122,7 +122,7 @@ describe iam_role('PSKControlPlaneBaseRole') do
   it { should be_allowed_action('logs:CreateLogGroup') }
   it { should be_allowed_action('logs:DescribeLogGroups') }
   it { should be_allowed_action('logs:DeleteLogGroup') }
-  it { should be_allowed_action('logs:ListTagsLogGroup') }
+  it { should be_allowed_action('logs:List*') }
   it { should be_allowed_action('logs:PutRetentionPolicy') }
   it { should be_allowed_action('logs:TagLogGroup') }
   it { should be_allowed_action('logs:UntagLogGroup') }
