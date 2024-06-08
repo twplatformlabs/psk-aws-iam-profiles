@@ -1,3 +1,4 @@
+.DS_Store
 .terraform*
 .external_modules
 source_aws_local.env

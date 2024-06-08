@@ -145,7 +145,7 @@ resource "aws_iam_policy" "PSKControlPlaneBaseRolePolicy" {
           "logs:CreateLogGroup",
           "logs:DescribeLogGroups",
           "logs:DeleteLogGroup",
-          "logs:ListTagsLogGroup",
+          "logs:List*",
           "logs:PutRetentionPolicy",
           "logs:TagLogGroup",
           "logs:UntagLogGroup",
