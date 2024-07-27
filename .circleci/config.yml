@@ -125,8 +125,10 @@ workflows:
           workspace: nonprod
           checkov-scan: true
           before-plan:
-            - set-environment:
-                account: nonprod
+            - op/env:
+                env-file: op.nonprod.env
+            # - set-environment:
+            #     account: nonprod
           filters: *on-push-main
 
       - approve nonprod changes:
