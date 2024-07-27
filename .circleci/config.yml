@@ -113,9 +113,6 @@ workflows:
           tflint-scan: true
           tflint-provider: aws
           trivy-scan: true
-          # before-static-analysis:
-          #   - op/env:
-          #       env-file: op.nonprod.env
           filters: *on-push-main
 
       - terraform/plan:
@@ -125,10 +122,8 @@ workflows:
           workspace: nonprod
           checkov-scan: true
           before-plan:
-            - op/env:
-                env-file: op.nonprod.env
-            # - set-environment:
-            #     account: nonprod
+            - set-environment:
+                account: nonprod
           filters: *on-push-main
 
       - approve nonprod changes:
