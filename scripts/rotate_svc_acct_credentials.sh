@@ -13,20 +13,26 @@ awsAssumeRole "${aws_account_id}" "${aws_assume_role}"
 echo "rotate service account credentials"
 iam-credential-rotation PSKServiceAccounts > machine_credentials.json
 
-# Write new nonprod credentials to 1password
+# Write new nonprod sa credentials to 1password
 echo "write PSKNonprodServiceAccount credentials"
 PSKNonprodServiceAccountCredentials=$(jq -er .PSKNonprodServiceAccount machine_credentials.json)
 PSKNonprodAccessKey=$(echo $PSKNonprodServiceAccountCredentials | jq .AccessKeyId | sed 's/"//g' | tr -d \\n)
 PSKNonprodSecret=$(echo $PSKNonprodServiceAccountCredentials | jq .SecretAccessKey | sed 's/"//g' | tr -d \\n)
 
-op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-access-key-id=$PSKNonprodAccessKey --vault empc-lab >/dev/null
-op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-secret-access-key=$PSKNonprodSecret --vault empc-lab >/dev/null
+write1passwordField "empc-lab" "aws-dps-2" "PSKNonprodServiceAccount-aws-access-key-id" "$PSKNonprodAccessKey"
+write1passwordField "empc-lab" "aws-dps-2" "PSKNonprodServiceAccount-aws-secret-access-key" "$PSKNonprodSecret"
 
-# Write new prod credentials to 1password vault
+# op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-access-key-id=$PSKNonprodAccessKey --vault empc-lab >/dev/null
+# op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-secret-access-key=$PSKNonprodSecret --vault empc-lab >/dev/null
+
+# Write new prod sa credentials to 1password vault
 echo "write PSKProdrodServiceAccount credentials"
 PSKProdServiceAccountCredentials=$(jq -er .PSKProdServiceAccount machine_credentials.json)
 PSKProdAccessKey=$(echo $PSKProdServiceAccountCredentials | jq .AccessKeyId | sed 's/"//g' | tr -d \\n)
 PSKProdSecret=$(echo $PSKProdServiceAccountCredentials | jq .SecretAccessKey | sed 's/"//g' | tr -d \\n)
 
-op item edit 'aws-dps-2' PSKProdServiceAccount-aws-access-key-id=$PSKProdAccessKey --vault empc-lab >/dev/null
-op item edit 'aws-dps-2' PSKProdServiceAccount-aws-secret-access-key=$PSKProdSecret --vault empc-lab >/dev/null
+write1passwordField "empc-lab" "aws-dps-2" "PSKProdServiceAccount-aws-access-key-id" "$PSKProdAccessKey"
+write1passwordField "empc-lab" "aws-dps-2" "PSKProdServiceAccount-aws-secret-access-key" "$PSKProdSecret"
+
+# op item edit 'aws-dps-2' PSKProdServiceAccount-aws-access-key-id=$PSKProdAccessKey --vault empc-lab >/dev/null
+# op item edit 'aws-dps-2' PSKProdServiceAccount-aws-secret-access-key=$PSKProdSecret --vault empc-lab >/dev/null
