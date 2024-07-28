@@ -68,8 +68,8 @@ jobs:
       Recurring job (weekly) to run pipeline integration tests to detect aws configuration drift
     docker:
       - image: *executor-image
-    environment:
-      TF_WORKSPACE: << parameters.account >>
+    # environment:
+    #   TF_WORKSPACE: << parameters.account >>
     parameters:
       account:
         description: nonprod or production account configuration
@@ -225,6 +225,6 @@ workflows:
           name: Prod AWS integration test
           context: *context
           account: prod
-      - rotate-credentials:
-          name: Rotate PSK service account credentials
-          context: *context
+      # - rotate-credentials:
+      #     name: Rotate PSK service account credentials
+      #     context: *context
