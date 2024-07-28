@@ -22,9 +22,6 @@ PSKNonprodSecret=$(echo $PSKNonprodServiceAccountCredentials | jq .SecretAccessK
 write1passwordField "empc-lab" "aws-dps-2" "PSKNonprodServiceAccount-aws-access-key-id" "$PSKNonprodAccessKey"
 write1passwordField "empc-lab" "aws-dps-2" "PSKNonprodServiceAccount-aws-secret-access-key" "$PSKNonprodSecret"
 
-# op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-access-key-id=$PSKNonprodAccessKey --vault empc-lab >/dev/null
-# op item edit 'aws-dps-2' PSKNonprodServiceAccount-aws-secret-access-key=$PSKNonprodSecret --vault empc-lab >/dev/null
-
 # Write new prod sa credentials to 1password vault
 echo "write PSKProdrodServiceAccount credentials"
 PSKProdServiceAccountCredentials=$(jq -er .PSKProdServiceAccount machine_credentials.json)
@@ -33,6 +30,3 @@ PSKProdSecret=$(echo $PSKProdServiceAccountCredentials | jq .SecretAccessKey | s
 
 write1passwordField "empc-lab" "aws-dps-2" "PSKProdServiceAccount-aws-access-key-id" "$PSKProdAccessKey"
 write1passwordField "empc-lab" "aws-dps-2" "PSKProdServiceAccount-aws-secret-access-key" "$PSKProdSecret"
-
-# op item edit 'aws-dps-2' PSKProdServiceAccount-aws-access-key-id=$PSKProdAccessKey --vault empc-lab >/dev/null
-# op item edit 'aws-dps-2' PSKProdServiceAccount-aws-secret-access-key=$PSKProdSecret --vault empc-lab >/dev/null
