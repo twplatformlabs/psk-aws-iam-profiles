@@ -214,8 +214,8 @@ workflows:
           filters: *on-tag-main
 
   weekly integration test:
-    when:
-      equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+    # when:
+    #   equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - recurring-integration-tests:
           name: Nonprod AWS integration test
