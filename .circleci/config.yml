@@ -75,7 +75,7 @@ jobs:
       - setup_remote_docker
       - set-environment:
           account: << parameters.account >>
-      - aws-integration-tests:
+      - integration-tests:
           account: << parameters.account >>
 
   rotate-credentials:
