@@ -5,7 +5,7 @@
 
 module "PSKControlPlaneBaseRole" {
   source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version     = "5.39.1"
+  version     = "5.48.0"
   create_role = true
 
   role_name                         = "PSKControlPlaneBaseRole"
