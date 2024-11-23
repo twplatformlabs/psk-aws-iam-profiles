@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs:
-  terraform: twdps/terraform@3.0.1
+  terraform: twdps/terraform@3.1.1
   op: twdps/onepassword@3.0.0
   do: twdps/pipeline-events@4.1.0
 
