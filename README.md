@@ -7,8 +7,6 @@
 	</p>
 </div>
 
-Go [here](https://github.com/ThoughtWorks-DPS/lab-documentation/blob/master/doc/architecture.md) for the architectural overview of an AWS-based Engineering Platform.  
-
 This pipeline manages:  
 
 **Product cloud infrastructure provider service accounts**  
