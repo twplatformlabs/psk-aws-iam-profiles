@@ -142,4 +142,5 @@ describe iam_role('PSKControlPlaneBaseRole') do
   it { should be_allowed_action('ssm:GetParameter') }
   it { should be_allowed_action('sqs:*') }
   it { should be_allowed_action('events:*') }
+  it { should be_allowed_action('cloudformation:*') }
 end

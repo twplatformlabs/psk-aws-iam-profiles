@@ -164,7 +164,8 @@ resource "aws_iam_policy" "PSKControlPlaneBaseRolePolicy" {
           "kms:ListAliases",
           "ssm:GetParameter",
           "sqs:*",
-          "events:*"
+          "events:*",
+          "cloudformation:*"
         ]
         "Effect" : "Allow"
         "Resource" : "*"
