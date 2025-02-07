@@ -193,17 +193,16 @@ workflows:
             - apply prod changes
           filters: *on-tag-main
 
-      # - do/release:
-      #     name: generate release notes
-      #     context: *context
-      #     on-tag: true
-      #     additional-args: "--data-source=commits"
-      #     before-release:
-      #       - op/env:
-      #           env-file: op.prod.env
-      #     requires:
-      #       - apply prod changes
-      #     filters: *on-tag-main
+      - do/slack:
+          context: *context
+          channel: lab-events
+          message: "psk-aws-iam-profiles release"
+          include-tag: true
+          before-message:
+            - op/env
+          filters: *on-tag-main
+          requires:
+            - apply prod changes
 
   schedule weekly rotation and integration test:
     jobs:
