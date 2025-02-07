@@ -193,17 +193,6 @@ workflows:
             - apply prod changes
           filters: *on-tag-main
 
-      - do/slack:
-          context: *context
-          channel: lab-events
-          message: "psk-aws-iam-profiles release"
-          include-tag: true
-          before-message:
-            - op/env
-          filters: *on-tag-main
-          requires:
-            - apply prod changes
-
   schedule weekly rotation and integration test:
     jobs:
       - do/schedule-pipeline:
