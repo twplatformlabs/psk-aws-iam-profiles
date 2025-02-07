@@ -181,17 +181,29 @@ workflows:
             - approve prod changes
           filters: *on-tag-main
 
-      - do/release:
+      - do/gh-release:
           name: generate release notes
           context: *context
-          on-tag: true
-          additional-args: "--data-source=commits"
+          notes-from-file: release.md
+          include-commit-msg: true
           before-release:
             - op/env:
                 env-file: op.prod.env
           requires:
             - apply prod changes
           filters: *on-tag-main
+
+      # - do/release:
+      #     name: generate release notes
+      #     context: *context
+      #     on-tag: true
+      #     additional-args: "--data-source=commits"
+      #     before-release:
+      #       - op/env:
+      #           env-file: op.prod.env
+      #     requires:
+      #       - apply prod changes
+      #     filters: *on-tag-main
 
   schedule weekly rotation and integration test:
     jobs:
