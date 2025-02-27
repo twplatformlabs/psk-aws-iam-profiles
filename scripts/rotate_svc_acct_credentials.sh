@@ -2,6 +2,8 @@
 source bash-functions.sh
 set -eo pipefail
 
+export VAULT=platform
+export ITEM=aws-sandbox
 export environment=$1
 export aws_account_id=$(jq -er .aws_account_id "$environment".auto.tfvars.json)
 export aws_assume_role=$(jq -er .aws_assume_role "$environment".auto.tfvars.json)
@@ -13,14 +15,14 @@ awsAssumeRole "${aws_account_id}" "${aws_assume_role}"
 echo "rotate service account credentials"
 iam-credential-rotation PSKServiceAccounts > machine_credentials.json
 
-# Write new nonprod sa credentials to 1password
+# Write new nonprod sa credentials to 1password vault
 echo "write PSKNonprodServiceAccount credentials"
 PSKNonprodServiceAccountCredentials=$(jq -er .PSKNonprodServiceAccount machine_credentials.json)
 PSKNonprodAccessKey=$(echo $PSKNonprodServiceAccountCredentials | jq .AccessKeyId | sed 's/"//g' | tr -d \\n)
 PSKNonprodSecret=$(echo $PSKNonprodServiceAccountCredentials | jq .SecretAccessKey | sed 's/"//g' | tr -d \\n)
 
-write1passwordField "empc-lab" "aws-dps-2" "PSKNonprodServiceAccount-aws-access-key-id" "$PSKNonprodAccessKey"
-write1passwordField "empc-lab" "aws-dps-2" "PSKNonprodServiceAccount-aws-secret-access-key" "$PSKNonprodSecret"
+write1passwordField "$VAULT" "$ITEM" "PSKNonprodServiceAccount-aws-access-key-id" "$PSKNonprodAccessKey"
+write1passwordField "$VAULT" "$ITEM" "PSKNonprodServiceAccount-aws-secret-access-key" "$PSKNonprodSecret"
 
 # Write new prod sa credentials to 1password vault
 echo "write PSKProdrodServiceAccount credentials"
@@ -28,5 +30,5 @@ PSKProdServiceAccountCredentials=$(jq -er .PSKProdServiceAccount machine_credent
 PSKProdAccessKey=$(echo $PSKProdServiceAccountCredentials | jq .AccessKeyId | sed 's/"//g' | tr -d \\n)
 PSKProdSecret=$(echo $PSKProdServiceAccountCredentials | jq .SecretAccessKey | sed 's/"//g' | tr -d \\n)
 
-write1passwordField "empc-lab" "aws-dps-2" "PSKProdServiceAccount-aws-access-key-id" "$PSKProdAccessKey"
-write1passwordField "empc-lab" "aws-dps-2" "PSKProdServiceAccount-aws-secret-access-key" "$PSKProdSecret"
+write1passwordField "$VAULT" "$ITEM" "PSKProdServiceAccount-aws-access-key-id" "$PSKProdAccessKey"
+write1passwordField "$VAULT" "$ITEM" "PSKProdServiceAccount-aws-secret-access-key" "$PSKProdSecret"

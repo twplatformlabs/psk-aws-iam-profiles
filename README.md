@@ -1,9 +1,9 @@
 <div align="center">
 	<p>
-	<img alt="Thoughtworks Logo" src="https://raw.githubusercontent.com/ThoughtWorks-DPS/static/master/thoughtworks_flamingo_wave.png?sanitize=true" width=200 /><br />
-	<img alt="DPS Title" src="https://raw.githubusercontent.com/ThoughtWorks-DPS/static/master/EMPCPlatformStarterKitsImage.png?sanitize=true" width=350/><br />
+	<img alt="Thoughtworks Logo" src="https://raw.githubusercontent.com/twplatformlabs/static/master/thoughtworks_flamingo_wave.png?sanitize=true" width=200 /><br />
+	<img alt="DPS Title" src="https://raw.githubusercontent.com/twplatformlabs/static/master/EMPCPlatformStarterKitsImage.png?sanitize=true" width=350/><br />
 	<h2>psk-aws-iam-profiles</h2>
-	<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/ThoughtWorks-DPS/psk-aws-iam-profiles"></a> <a href="https://aws.amazon.com"><img src="https://img.shields.io/badge/-deployed-blank.svg?style=social&logo=amazon"></a>
+	<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/twplatformlabs/psk-aws-iam-profiles"></a> <a href="https://aws.amazon.com"><img src="https://img.shields.io/badge/-deployed-blank.svg?style=social&logo=amazon"></a>
 	</p>
 </div>
 
@@ -15,7 +15,7 @@ Two service accounts (machine users) are defined for use in the Engineering Plat
 main.tf  
 
 <div align="center">
-	<img alt="architecture1.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture1.png" width=800 />
+	<img alt="architecture1.png" src="https://github.com/twplatformlabs/psk-aws-iam-profiles/raw/main/doc/architecture1.png" width=800 />
 </div>
 
 The diagram represents the typical configuration for an initial engineering platform on AWS. The PSK code will be limited to a two-account configuration for budgetary reasons.  
@@ -25,7 +25,7 @@ The diagram represents the typical configuration for an initial engineering plat
 Each pipeline role has a matching, named role file.  
 
 <div align="center">
-	<img alt="architecture2.png" src="https://github.com/ThoughtWorks-DPS/psk-aws-iam-profiles/raw/main/doc/architecture2.png" width=800 />
+	<img alt="architecture2.png" src="https://github.com/twplatformlabs/psk-aws-iam-profiles/raw/main/doc/architecture2.png" width=800 />
 </div>
 
 ### about access permissions  

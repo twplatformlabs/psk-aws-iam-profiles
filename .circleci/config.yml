@@ -7,8 +7,8 @@ orbs:
   do: twdps/pipeline-events@5.0.1
 
 globals:
-  - &context empc-lab
-  - &executor-image twdps/circleci-infra-aws:alpine-7.9.0
+  - &context platform
+  - &executor-image twdps/circleci-infra-aws:alpine-7.9.1
 
 on-push-main: &on-push-main
   branches:

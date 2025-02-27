@@ -14,7 +14,7 @@ terraform {
   # workspace to type `local`.
   backend "remote" {
     hostname     = "app.terraform.io"
-    organization = "twdps"
+    organization = "twplatformlabs"
     workspaces {
       prefix = "psk-aws-iam-profiles-"
     }
