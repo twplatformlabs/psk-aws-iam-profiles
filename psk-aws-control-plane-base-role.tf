@@ -7,8 +7,9 @@ module "PSKControlPlaneBaseRole" {
   version = "6.2.3"
   create  = true
 
-  name = "PSKControlPlaneBaseRole"
-  path = "/PSKRoles/"
+  name            = "PSKControlPlaneBaseRole"
+  path            = "/PSKRoles/"
+  use_name_prefix = false
 
   trust_policy_permissions = {
     TrustRoleAndServiceToAssume = {
