@@ -2,20 +2,47 @@
 #
 # Used by: psk-aws-control-plane-base pipeline
 # manages platform cluster aws-managed aspects
-
 module "PSKControlPlaneBaseRole" {
-  source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version     = "5.55.0"
-  create_role = true
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role"
+  version = "6.2.3"
+  create  = true
 
-  role_name                         = "PSKControlPlaneBaseRole"
-  role_path                         = "/PSKRoles/"
-  role_requires_mfa                 = false
-  custom_role_policy_arns           = [aws_iam_policy.PSKControlPlaneBaseRolePolicy.arn]
-  number_of_custom_role_policy_arns = 1
+  name = "PSKControlPlaneBaseRole"
+  path = "/PSKRoles/"
 
-  trusted_role_arns = ["arn:aws:iam::${var.state_account_id}:root"]
+  trust_policy_permissions = {
+    TrustRoleAndServiceToAssume = {
+      actions = [
+        "sts:AssumeRole",
+        "sts:TagSession",
+      ]
+      principals = [{
+        type = "AWS"
+        identifiers = [
+          "arn:aws:iam::${var.state_account_id}:root",
+        ]
+      }]
+    }
+  }
+
+  policies = {
+    custom = aws_iam_policy.PSKControlPlaneBaseRolePolicy.arn
+  }
 }
+
+# module "PSKControlPlaneBaseRole" {
+#   source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+#   version     = "6.2.3"
+#   create_role = true
+
+#   role_name                         = "PSKControlPlaneBaseRole"
+#   role_path                         = "/PSKRoles/"
+#   role_requires_mfa                 = false
+#   custom_role_policy_arns           = [aws_iam_policy.PSKControlPlaneBaseRolePolicy.arn]
+#   number_of_custom_role_policy_arns = 1
+
+#   trusted_role_arns = ["arn:aws:iam::${var.state_account_id}:root"]
+# }
 
 # role permissions
 resource "aws_iam_policy" "PSKControlPlaneBaseRolePolicy" {
