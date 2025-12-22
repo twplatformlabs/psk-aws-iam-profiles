@@ -4,17 +4,32 @@
 # manages iam policy for platform roles, groups, and service accounts
 
 module "PSKIamProfilesRole" {
-  source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  version     = "5.55.0"
-  create_role = true
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role"
+  version = "6.2.3"
+  create  = true
 
-  role_name                         = "PSKIamProfilesRole"
-  role_path                         = "/PSKRoles/"
-  role_requires_mfa                 = false
-  custom_role_policy_arns           = [aws_iam_policy.PSKIamProfilesRolePolicy.arn]
-  number_of_custom_role_policy_arns = 1
+  name            = "PSKIamProfilesRole"
+  path            = "/PSKRoles/"
+  use_name_prefix = false
 
-  trusted_role_arns = ["arn:aws:iam::${var.state_account_id}:root"]
+  trust_policy_permissions = {
+    TrustRoleAndServiceToAssume = {
+      actions = [
+        "sts:TagSession",
+        "sts:AssumeRole",
+      ]
+      principals = [{
+        type = "AWS"
+        identifiers = [
+          "arn:aws:iam::${var.state_account_id}:root",
+        ]
+      }]
+    }
+  }
+
+  policies = {
+    custom = aws_iam_policy.PSKIamProfilesRolePolicy.arn
+  }
 }
 
 # role permissions
