@@ -9,29 +9,36 @@
 
 module "PSKNonprodServiceAccount" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-user"
-  version = "5.55.0"
+  version = "6.2.3"
 
-  create_user                   = var.is_state_account
-  name                          = "PSKNonprodServiceAccount"
-  path                          = "/PSKServiceAccounts/"
-  create_iam_access_key         = false
-  create_iam_user_login_profile = false
-  force_destroy                 = true
-  password_reset_required       = false
+  create                  = var.is_state_account
+  name                    = "PSKNonprodServiceAccount"
+  path                    = "/PSKServiceAccounts/"
+  create_access_key       = false
+  create_login_profile    = false
+  force_destroy           = true
+  password_reset_required = false
 }
 
 module "PSKNonprodServiceAccountGroup" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
-  version = "5.55.0"
+  source  = "terraform-aws-modules/iam/aws//modules/iam-group"
+  version = "6.2.3"
 
-  count           = var.is_state_account ? 1 : 0
-  name            = "PSKNonprodServiceAccountGroup"
-  path            = "/PSKGroups/"
-  assumable_roles = var.all_nonprod_account_roles
+  create = var.is_state_account
+  name   = "PSKNonprodServiceAccountGroup"
+  path   = "/PSKGroups/"
+
+  enable_self_management_permissions = false
+  permissions = {
+    AssumeRole = {
+      actions   = ["sts:AssumeRole"]
+      resources = var.all_nonprod_account_roles
+    }
+  }
 
   # include the nonprod service account in the nonprod group
-  group_users = [
-    module.PSKNonprodServiceAccount.iam_user_name
+  users = [
+    module.PSKNonprodServiceAccount.name
   ]
 }
 
@@ -41,28 +48,35 @@ module "PSKNonprodServiceAccountGroup" {
 
 module "PSKProdServiceAccount" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-user"
-  version = "5.55.0"
+  version = "6.2.3"
 
-  create_user                   = var.is_state_account
-  name                          = "PSKProdServiceAccount"
-  path                          = "/PSKServiceAccounts/"
-  create_iam_access_key         = false
-  create_iam_user_login_profile = false
-  force_destroy                 = true
-  password_reset_required       = false
+  create                  = var.is_state_account
+  name                    = "PSKProdServiceAccount"
+  path                    = "/PSKServiceAccounts/"
+  create_access_key       = false
+  create_login_profile    = false
+  force_destroy           = true
+  password_reset_required = false
 }
 
 module "PSKProdServiceAccountGroup" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
-  version = "5.55.0"
+  source  = "terraform-aws-modules/iam/aws//modules/iam-group"
+  version = "6.2.3"
 
-  count           = var.is_state_account ? 1 : 0
-  name            = "PSKProdServiceAccountGroup"
-  path            = "/PSKGroups/"
-  assumable_roles = concat(var.all_nonprod_account_roles, var.all_production_account_roles)
+  create = var.is_state_account
+  name   = "PSKProdServiceAccountGroup"
+  path   = "/PSKGroups/"
+
+  enable_self_management_permissions = false
+  permissions = {
+    AssumeRole = {
+      actions   = ["sts:AssumeRole"]
+      resources = concat(var.all_nonprod_account_roles, var.all_production_account_roles)
+    }
+  }
 
   # include the production service account in the production group
-  group_users = [
-    module.PSKProdServiceAccount.iam_user_name
+  users = [
+    module.PSKProdServiceAccount.name
   ]
 }
