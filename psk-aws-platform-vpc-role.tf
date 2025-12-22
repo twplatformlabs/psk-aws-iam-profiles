@@ -32,20 +32,6 @@ module "PSKPlatformVPCRole" {
   }
 }
 
-# module "PSKPlatformVPCRole" {
-#   source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-#   version     = "5.55.0"
-#   create_role = true
-
-#   role_name                         = "PSKPlatformVPCRole"
-#   role_path                         = "/PSKRoles/"
-#   role_requires_mfa                 = false
-#   custom_role_policy_arns           = [aws_iam_policy.PSKPlatformVPCRolePolicy.arn]
-#   number_of_custom_role_policy_arns = 1
-
-#   trusted_role_arns = ["arn:aws:iam::${var.state_account_id}:root"]
-# }
-
 # role permissions
 resource "aws_iam_policy" "PSKPlatformVPCRolePolicy" {
   name = "PSKPlatformVPCRolePolicy"
