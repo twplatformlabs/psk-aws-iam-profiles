@@ -35,6 +35,7 @@ Even though EP product team members have direct access, apart from the Developme
 
 As you can see from the above diagram, account level roles are ubiquitous. Each account used by the product has the same set of roles defined. A service account's group membership then determines which accounts the svc identity may assume any role.  
 
+
 ### scanning examples
 
 This pipeline workflow includes three code scans that demonstrate two kinds of static-code inspections. TFlint performs the 'lint' style checks on terraform files for code syntax, style, and convention oriented checks. Trivy and Checkov are both used to perform security and other best-practice style scans of the code. Trivy and Checkov are not identical in their functionality, but as you might expect there is considerable overlap. Generally, teams decide on a single tool that covers the scope of things they determine of needed. Not all of the PSK exmaples will have muiltiple examples of the same type of scan using different tools but some may.  
