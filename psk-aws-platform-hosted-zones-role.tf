@@ -5,7 +5,7 @@
 
 module "PSKPlatformHostedZonesRole" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role"
-  version = "6.2.3"
+  version = "6.3.0"
   create  = true
 
   name            = "PSKPlatformHostedZonesRole"
