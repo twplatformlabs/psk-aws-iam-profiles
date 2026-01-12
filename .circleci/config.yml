@@ -8,6 +8,8 @@ orbs:
 
 globals:
   - &context platform
+  - &nonprod-workspace psk-aws-iam-profiles-nonprod
+  - &prod-workspace psk-aws-iam-profiles-prod
   - &executor-image twdps/circleci-infra-aws:alpine-2025.04
 
 on-push-main: &on-push-main
@@ -30,12 +32,18 @@ commands:
       account:
         description: account to be configured
         type: string
+      workspace:
+        description: terraform cloud workspace
+        type: string
     steps:
       - op/env:
           env-file: op.<< parameters.account >>.env
       - op/tpl:
           tpl-path: environments
           tpl-file: << parameters.account >>.auto.tfvars.json
+      - terraform/tfc-backend:
+          tfc-organization: twplatformlabs
+          tfc-workspace: << parameters.workspace >>
       - terraform/terraformrc
       - do/bash-functions
 
@@ -70,11 +78,15 @@ jobs:
       account:
         description: account configuration to test
         type: string
+      workspace:
+        description: terraform cloud workspace
+        type: string
     steps:
       - checkout
       - setup_remote_docker
       - set-environment:
           account: << parameters.account >>
+          wowrkspace: << parameters.workspace >>
       - integration-tests:
           account: << parameters.account >>
 
@@ -118,6 +130,7 @@ workflows:
           before-plan:
             - set-environment:
                 account: nonprod
+                workspace: nonprod-workspace
           filters: *on-push-main
 
       - approve nonprod changes:
@@ -134,6 +147,7 @@ workflows:
           before-apply:
             - set-environment:
                 account: nonprod
+                workspace: nonprod-workspace
           after-apply:
             - integration-tests:
                 account: nonprod
@@ -154,6 +168,7 @@ workflows:
           before-plan:
             - set-environment:
                 account: prod
+                workspace: prod-workspace
           filters: *on-tag-main
 
       - approve prod changes:
@@ -169,6 +184,7 @@ workflows:
           before-apply:
             - set-environment:
                 account: prod
+                workspace: prod-workspace
           after-apply:
             - integration-tests:
                 account: prod
@@ -216,10 +232,12 @@ workflows:
           name: Nonprod integration test
           context: *context
           account: nonprod
+          workspace: nonprod-workspace
       - recurring-integration-tests:
           name: Prod integration test
           context: *context
           account: prod
+          workspace: prod-workspacee
       - rotate-credentials:
           name: Rotate PSK service account credentials
           context: *context
