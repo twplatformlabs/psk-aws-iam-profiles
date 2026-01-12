@@ -41,9 +41,9 @@ commands:
       - op/tpl:
           tpl-path: environments
           tpl-file: << parameters.account >>.auto.tfvars.json
-      - terraform/tfc-backend:
-          tfc-organization: twplatformlabs
-          tfc-workspace: << parameters.workspace >>
+      # - terraform/tfc-backend:
+      #     tfc-organization: twplatformlabs
+      #     tfc-workspace: << parameters.workspace >>
       - terraform/terraformrc
       - do/bash-functions
 
