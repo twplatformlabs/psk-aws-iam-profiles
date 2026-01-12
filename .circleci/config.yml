@@ -10,7 +10,7 @@ globals:
   - &context platform
   - &nonprod-workspace psk-aws-iam-profiles-nonprod
   - &prod-workspace psk-aws-iam-profiles-prod
-  - &executor-image twdps/circleci-infra-aws:alpine-2025.04
+  - &executor-image twdps/circleci-infra-aws:alpine-2026.01.1  #alpine-2025.04
 
 on-push-main: &on-push-main
   branches:
@@ -41,9 +41,9 @@ commands:
       - op/tpl:
           tpl-path: environments
           tpl-file: << parameters.account >>.auto.tfvars.json
-      # - terraform/tfc-backend:
-      #     tfc-organization: twplatformlabs
-      #     tfc-workspace: << parameters.workspace >>
+      - terraform/tfc-backend:
+          tfc-organization: twplatformlabs
+          tfc-workspace: << parameters.workspace >>
       - terraform/terraformrc
       - do/bash-functions
 
@@ -95,12 +95,13 @@ jobs:
     docker:
       - image: *executor-image
     environment:
-      TF_WORKSPACE: nonprod
+      TF_WORKSPACE: *nonprod-workspace
     steps:
       - checkout
       - setup_remote_docker
       - set-environment:
           account: nonprod
+          workspace: *nonprod-workspace
       - rotate-service-account-credentials:
           account: nonprod
 
@@ -115,7 +116,7 @@ workflows:
           name: static code analysis
           context: *context
           executor-image: *executor-image
-          workspace: nonprod
+          workspace: *nonprod-workspace
           tflint-scan: true
           tflint-provider: aws
           trivy-scan: true
@@ -125,12 +126,12 @@ workflows:
           name: nonprod change plan
           context: *context
           executor-image: *executor-image
-          workspace: nonprod
+          workspace: *nonprod-workspace
           checkov-scan: true
           before-plan:
             - set-environment:
                 account: nonprod
-                workspace: nonprod-workspace
+                workspace: *nonprod-workspace
           filters: *on-push-main
 
       - approve nonprod changes:
@@ -144,11 +145,11 @@ workflows:
           name: apply nonprod changes
           context: *context
           executor-image: *executor-image
-          workspace: nonprod
+          workspace: *nonprod-workspace
           before-apply:
             - set-environment:
                 account: nonprod
-                workspace: nonprod-workspace
+                workspace: *nonprod-workspace
           after-apply:
             - integration-tests:
                 account: nonprod
@@ -164,12 +165,12 @@ workflows:
           name: prod change plan
           context: *context
           executor-image: *executor-image
-          workspace: prod
+          workspace: *prod-workspace
           checkov-scan: true
           before-plan:
             - set-environment:
                 account: prod
-                workspace: prod-workspace
+                workspace: *prod-workspace
           filters: *on-tag-main
 
       - approve prod changes:
@@ -182,11 +183,11 @@ workflows:
           name: apply prod changes
           context: *context
           executor-image: *executor-image
-          workspace: prod
+          workspace: *prod-workspace
           before-apply:
             - set-environment:
                 account: prod
-                workspace: prod-workspace
+                workspace: *prod-workspace
           after-apply:
             - integration-tests:
                 account: prod
@@ -234,12 +235,12 @@ workflows:
           name: Nonprod integration test
           context: *context
           account: nonprod
-          workspace: nonprod-workspace
+          workspace: *nonprod-workspace
       - recurring-integration-tests:
           name: Prod integration test
           context: *context
           account: prod
-          workspace: prod-workspacee
+          workspace: *prod-workspace
       - rotate-credentials:
           name: Rotate PSK service account credentials
           context: *context
