@@ -143,6 +143,7 @@ workflows:
       - terraform/apply:
           name: apply nonprod changes
           context: *context
+          executor-image: *executor-image
           workspace: nonprod
           before-apply:
             - set-environment:
@@ -180,6 +181,7 @@ workflows:
       - terraform/apply:
           name: apply prod changes
           context: *context
+          executor-image: *executor-image
           workspace: prod
           before-apply:
             - set-environment:
