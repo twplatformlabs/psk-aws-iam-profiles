@@ -9,7 +9,7 @@
 
 module "PSKNonprodServiceAccount" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-user"
-  version = "6.3.0"
+  version = "6.4.0"
 
   create                  = var.is_state_account
   name                    = "PSKNonprodServiceAccount"
@@ -22,7 +22,7 @@ module "PSKNonprodServiceAccount" {
 
 module "PSKNonprodServiceAccountGroup" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-group"
-  version = "6.3.0"
+  version = "6.4.0"
 
   create = var.is_state_account
   name   = "PSKNonprodServiceAccountGroup"
@@ -48,7 +48,7 @@ module "PSKNonprodServiceAccountGroup" {
 
 module "PSKProdServiceAccount" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-user"
-  version = "6.3.0"
+  version = "6.4.0"
 
   create                  = var.is_state_account
   name                    = "PSKProdServiceAccount"
@@ -61,7 +61,7 @@ module "PSKProdServiceAccount" {
 
 module "PSKProdServiceAccountGroup" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-group"
-  version = "6.3.0"
+  version = "6.4.0"
 
   create = var.is_state_account
   name   = "PSKProdServiceAccountGroup"
