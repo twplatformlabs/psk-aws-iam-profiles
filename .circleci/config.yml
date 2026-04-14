@@ -86,7 +86,7 @@ jobs:
       - setup_remote_docker
       - set-environment:
           account: << parameters.account >>
-          wowrkspace: << parameters.workspace >>
+          workspace: << parameters.workspace >>
       - integration-tests:
           account: << parameters.account >>
 

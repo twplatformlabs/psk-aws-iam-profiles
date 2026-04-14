@@ -3,7 +3,7 @@ require 'awspec'
 describe iam_role('PSKPlatformHostedZonesRole') do
   it { should exist }
   it { should have_iam_policy('PSKPlatformHostedZonesRolePolicy') }
-  
+
   it { should be_allowed_action('route53:AcceptDomainTransferFromAnotherAwsAccount') }
   it { should be_allowed_action('route53:AssociateVPCWithHostedZone') }
   it { should be_allowed_action('route53:CancelDomainTransferToAnotherAwsAccount') }

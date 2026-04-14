@@ -1,9 +1,9 @@
 terraform {
-  required_version = "~> 1.9"
+  required_version = "~> 1.14"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.27"
+      version = "~> 6.40"
     }
   }
 
@@ -12,13 +12,13 @@ terraform {
   # each environment. These must be pre-created using the terraform cli. In addition,
   # after creating a workspace you must access the app.terraform.io UI and set the
   # workspace to type `local`.
-  # backend "remote" {
-  #   hostname     = "app.terraform.io"
-  #   organization = "twplatformlabs"
-  #   workspaces {
-  #     prefix = "psk-aws-iam-profiles-"
-  #   }
-  # }
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "twplatformlabs"
+    workspaces {
+      prefix = "psk-aws-iam-profiles-"
+    }
+  }
 }
 
 provider "aws" {

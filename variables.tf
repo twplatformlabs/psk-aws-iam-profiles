@@ -2,7 +2,7 @@
 variable "aws_region" {
   type = string
   validation {
-    condition     = can(regex("[a-z][a-z]-[a-z]+-[1-9]", var.aws_region))
+    condition     = can(regex("^[a-z]{2}-[a-z]+-[0-9]{1,2}$", var.aws_region))
     error_message = "Invalid AWS Region name."
   }
 }
@@ -34,10 +34,10 @@ variable "state_account_id" {
 
 variable "all_nonprod_account_roles" {
   description = "arn reference to * roles for all non-production aws accounts; arn:aws:iam::*****12345:role/*"
-  type        = list(any)
+  type        = list(string)
 }
 
 variable "all_production_account_roles" {
   description = "arn reference to * roles for all production aws accounts; arn:aws:iam::*****12345:role/*"
-  type        = list(any)
+  type        = list(string)
 }
