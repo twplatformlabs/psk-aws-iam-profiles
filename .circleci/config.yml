@@ -10,7 +10,7 @@ globals:
   - &context platform
   - &nonprod-workspace psk-aws-iam-profiles-nonprod
   - &prod-workspace psk-aws-iam-profiles-prod
-  - &executor-image twdps/circleci-infra-aws:alpine-2026.04
+  - &executor-image ghcr.io/twplatformlabs/circleci-infra-aws:alpine-2026.04
 
 on-push-main: &on-push-main
   branches:
