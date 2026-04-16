@@ -7,18 +7,20 @@ terraform {
     }
   }
 
-  # Remote backend state using terraform cloud
-  # Note: the `prefix` workspace configuration creates a separate state store for
-  # each environment. These must be pre-created using the terraform cli. In addition,
-  # after creating a workspace you must access the app.terraform.io UI and set the
-  # workspace to type `local`.
-  # backend "remote" {
-  #   hostname     = "app.terraform.io"
-  #   organization = "twplatformlabs"
-  #   workspaces {
-  #     prefix = "psk-aws-iam-profiles-"
+  # The backend cloud store is managed using the terraform orb tfc-backend command.
+  # this command will generate the appropriate template for the tf workspace:
+  #
+  # terraform {
+  #   cloud {
+  #     organization = "${TFC_ORGANIZATION}"
+  #     hostname = "app.terraform.io"
+
+  #     workspaces {
+  #       name = "${TFC_WORKSPACE}"
+  #     }
   #   }
   # }
+
 }
 
 provider "aws" {
