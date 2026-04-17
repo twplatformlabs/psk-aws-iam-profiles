@@ -10,7 +10,7 @@ globals:
   - &context platform
   - &nonprod-workspace psk-aws-iam-profiles-nonprod
   - &prod-workspace psk-aws-iam-profiles-prod
-  - &executor-image ghcr.io/twplatformlabs/circleci-infra-aws:alpine-2026.04.1
+  - &executor-image ghcr.io/twplatformlabs/circleci-infra-aws:alpine-latest
 
 on-push-main: &on-push-main
   branches:
@@ -161,7 +161,6 @@ workflows:
       - terraform/plan:
           name: prod change plan
           context: *context
-          executor-image: *executor-image
           workspace: *prod-workspace
           checkov-scan: true
           before-plan:
@@ -179,7 +178,6 @@ workflows:
       - terraform/apply:
           name: apply prod changes
           context: *context
-          executor-image: *executor-image
           workspace: *prod-workspace
           before-apply:
             - set-environment:
