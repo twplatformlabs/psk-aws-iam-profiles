@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs:
-  terraform: twdps/terraform@3.4.0
+  terraform: twdps/terraform@4.0.0
   op: twdps/onepassword@3.0.0
   do: twdps/pipeline-events@5.3.2
 
@@ -115,7 +115,6 @@ workflows:
       - terraform/static-analysis:
           name: static code analysis
           context: *context
-          executor-image: *executor-image
           workspace: *nonprod-workspace
           tflint-scan: true
           tflint-provider: aws
@@ -125,7 +124,6 @@ workflows:
       - terraform/plan:
           name: nonprod change plan
           context: *context
-          executor-image: *executor-image
           workspace: *nonprod-workspace
           checkov-scan: true
           before-plan:
@@ -144,7 +142,6 @@ workflows:
       - terraform/apply:
           name: apply nonprod changes
           context: *context
-          executor-image: *executor-image
           workspace: *nonprod-workspace
           before-apply:
             - set-environment:
