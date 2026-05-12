@@ -65,7 +65,8 @@ flowchart LR
                                   PSKPlatformHostedZonesRole
                                   PSKPlatformVPCRole
                                   PSKControlPlaneBaseRole
-                                  ..." }
+                                  ...
+                                  PSKCrossplaneProviderRole" }
 ```
 
 **Release**  
@@ -103,6 +104,8 @@ In general, it is only the Engineering Platform product development team(s) that
 Even though EP product team members have direct access, apart from the Development account you should not expect to see actual human write-access taking place. All change is brought about through the software-defined process and via a service account persona.  
 
 As you can see from the above diagram, account level roles are ubiquitous. Each account used by the product has the same set of roles defined. A service account's group membership then determines which accounts the svc identity may assume any role.  
+
+We are also creating a Crossplane provider role and pod-identity association that can be used by the crossplane operator. In the PSK lab platform the Crossplane extensions are deployed with strict RBAC limits to administrative users. Compositions and custom resource definitions are created for platform Developer users. See the psk-plaform-ext-crossplane repo for more details.  
 
 ### scanning examples
 
