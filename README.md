@@ -79,7 +79,7 @@ flowchart LR
     GITPUSH --> RS & SA
     GITTAG --> RDEV --> RNP --> RP
 
-    GITPUSH@{ shape: brace-r, label: "$ git push" }
+
     GITTAG@{ shape: brace-r, label: "$ git tag _1.3.3_" }
 
     subgraph Acct: Platform Development
