@@ -5,7 +5,7 @@
 
 module "PSKPlatformObservabilityBaseRole" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role"
-  version = "6.6.1"
+  version = "6.8.0"
   create  = true
 
   name            = "PSKPlatformObservabilityBaseRole"
